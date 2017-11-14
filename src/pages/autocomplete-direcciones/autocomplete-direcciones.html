@@ -1,0 +1,13 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Seleccionar Dirección</ion-title>
+    <ion-searchbar [(ngModel)]="autocomplete.query" [showCancelButton]="true" (ionInput)="actualizarBusqueda()" (ionCancel)="dismiss()"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let item of autocompleteItems" tappable (click)="seleccionarItem(item)">
+      {{ item.Address }}
+    </ion-item>
+  </ion-list>
+</ion-content>

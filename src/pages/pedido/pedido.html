@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-navbar   color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      Pedidos
+    </ion-title>
+  </ion-navbar>
+
+  <ion-toolbar no-border>
+    <ion-segment [(ngModel)]="tipoTarea">
+      <ion-segment-button value="Creado">
+        Creados
+      </ion-segment-button>
+      <ion-segment-button value="Autorizacion">
+        Autorización
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content no-padding>
+  <div *ngIf="tipoTarea==='Creado'">
+    <ion-searchbar [(ngModel)]="busqueda" placeholder="Buscar por número de pedido"></ion-searchbar>
+    <ion-list>
+        <ion-item-sliding *ngFor="let pedido of listaPedidos">
+          <ion-item >
+            <ion-icon name="document"></ion-icon>
+            <strong>{{pedido.NumPedido}}</strong> - {{pedido.Cliente}}
+          </ion-item>
+        </ion-item-sliding>
+    </ion-list>
+  </div>
+  <div *ngIf="tipoTarea==='Autorizacion'">
+    lista Autorizacion
+  </div>
+  <ion-fab right bottom (click)="cargarFormularioNuevoPedido()">
+    <button ion-fab color="primary" mini><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+</ion-content>

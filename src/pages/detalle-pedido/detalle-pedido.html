@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Detalle de pedido</ion-title>
+    <ion-buttons end>
+      <button  ion-button icon-only (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form #forma="ngForm">
+    <ion-list padding>
+      <ion-item>
+        <ion-label floating>Artículo</ion-label>
+        <ion-input type="text" required name="articulo" disabled (click)="mostrarModalArticulos()" [(ngModel)]="articuloSeleccionado"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Cantidad</ion-label>
+        <ion-input type="number" required name="cantidad" [(ngModel)]="detalle.cantidad"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Promocional</ion-label>
+        <ion-toggle checked="false"  name="promocional" [(ngModel)]="detalle.promocional"></ion-toggle>
+      </ion-item>
+    </ion-list>
+    <div padding>
+     <button ion-button [disabled]="!forma.valid" block (click)="agregar()"  >Agregar</button>
+   </div>
+ </form>
+</ion-content>

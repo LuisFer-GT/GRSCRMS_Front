@@ -1,0 +1,55 @@
+.ios, .md {
+      page-agregar-pedido  {
+
+        .scroll-content {
+            background-color: map-get($colors, light);
+        }
+
+        ion-card-header {
+            font-weight: bold;
+        }
+
+    }
+
+    ion-item.limpiar{
+      margin:0px!important;
+      padding:0px!important;
+    }
+
+    ion-item-options{
+      margin:0px!important;
+      padding:0px!important;
+    }
+    ion-grid{
+      margin:0px!important;
+      padding:0px!important;
+    }
+
+    ion-row.active {
+      background-color: #f5f5f5;
+    }
+
+    ion-row.success {
+      background-color: #dff0d8;
+    }
+
+    ion-row.warning {
+      background-color: #fcf8e3;
+    }
+
+    ion-row.error {
+      background-color: #f2dede;
+    }
+
+    ion-row.body{
+      background-color:#fff;
+      font-size: 12px;
+    }
+
+
+    ion-row.header{
+      background-color: map-get($colors, primary);
+      color:white;
+    }
+
+}

@@ -1,0 +1,34 @@
+<ion-menu [content]="content" *ngIf="_loginService.isAuthenticated()">
+  <ion-header>
+    <ion-toolbar   color="primary" text-center>
+      <ion-title>Menú</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-item-group>
+      <ion-item>
+        <ion-avatar item-center >
+          <img src="assets/img/user.png">
+          <hr>
+          <small >{{_loginService.userLogged()?.nombre}}</small>
+        </ion-avatar>
+      </ion-item>
+      <ion-item-divider color="light">
+          Opciones <ion-icon name="apps" item-end></ion-icon>
+      </ion-item-divider>
+      <button menuClose ion-item *ngFor="let item of paginas" (click)="abrirPagina(item)">
+        <ion-icon [name]="item.icon" item-start color="dark"></ion-icon> {{item.titulo}}
+      </button>
+      <ion-item-divider color="light">
+          Opciones de Cuenta <ion-icon name="key" item-end></ion-icon>
+      </ion-item-divider>
+      <button menuClose ion-item (click)="logout()" >
+        <ion-icon name="exit" item-start color="dark"></ion-icon> Cerrar Sesión
+      </button>
+    </ion-item-group>
+  </ion-content>
+</ion-menu>
+
+
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
