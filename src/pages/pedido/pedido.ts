@@ -12,24 +12,33 @@ import { Function } from '../../utils/functions';
 export class PedidoPage {
   listaPedidos:Array<Pedido>;
   listadoEntregasAux:Array<Pedido>;
+  listaAutorizaciones:Array<Pedido>;
   tipoTarea:string='Creado';
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams, private _loginService:LoginService, private _pedidoService:PedidoService) {
+      this.listasDeDatos();
+  }
 
-    _pedidoService.listarPedidosCreados(_loginService.userLogged().codigoVendedor).then(data=>{
+  listasDeDatos(){
+    this._pedidoService.listarPedidosCreados(this._loginService.userLogged().codigoVendedor).then(data=>{
       this.listaPedidos=<Array<Pedido>>data;
       this.listadoEntregasAux=data;
       this.listadoEntregasAux=Function.distinct(this.listadoEntregasAux);
     });
-  }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad Pedido');
+    this._pedidoService.listaPedidosCliente(this._loginService.userLogged().nombre).then(data=>{
+      for(let pedido of data){
+        if(pedido.estado1!=='Autorizado'){
+          this.listaAutorizaciones.push(pedido);
+        }
+      }
+    });
   }
 
   cargarFormularioNuevoPedido(){
-    this.navCtrl.push(AgregarPedidoPage);
+    this.navCtrl.push(AgregarPedidoPage,{target: this});
   }
 
 }

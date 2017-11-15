@@ -74,13 +74,14 @@ export class AgregarPedidoPage {
                 {
                   text: 'Aceptar',
                   handler: data => {
+                    this.pedido.estado = 'Pendiente';
                     this._pedidoService.autorizacion(this.pedido).then(data=>{
                       this._toastController.create({
                           message: data.detalle,
                         duration: 3000
                       }).present();
                     });
-
+                    this.navParams.get('target').listasDeDatos();
                     this.navCtrl.pop();
                   }
                 }

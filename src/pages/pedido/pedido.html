@@ -26,15 +26,30 @@
     <ion-searchbar [(ngModel)]="busqueda" placeholder="Buscar por número de pedido"></ion-searchbar>
     <ion-list>
         <ion-item-sliding *ngFor="let pedido of listaPedidos">
-          <ion-item >
-            <ion-icon name="document"></ion-icon>
-            <strong>{{pedido.NumPedido}}</strong> - {{pedido.Cliente}}
+          <ion-item style="white-space: normal;">
+            <h6><ion-icon name="calendar"></ion-icon> {{pedido.FechaVencimiento | date:'dd-MM-yyyy'}}</h6>
+            <strong> <ion-icon name="document"></ion-icon> #{{pedido.NumPedido}}</strong> - {{pedido.Cliente}}
+            <hr>
+            <p style="white-space: normal;font-size:12px">
+              {{pedido.Comentario}}
+            </p>
           </ion-item>
         </ion-item-sliding>
     </ion-list>
   </div>
   <div *ngIf="tipoTarea==='Autorizacion'">
-    lista Autorizacion
+    <ion-list>
+      <ion-item-sliding *ngFor="let pedido of listaAutorizaciones">
+      <ion-item style="white-space: normal;" >
+        <h6><ion-icon name="calendar"></ion-icon> {{pedido.fecha_vencimiento | date:'dd-MM-yyyy'}}</h6>
+        <strong> <ion-icon name="document"></ion-icon> #{{pedido.codigo_cliente}}</strong> - {{pedido.cliente}}
+        <hr>
+        <p style="white-space: normal;font-size:12px">
+          {{pedido.comentario}}
+        </p>
+      </ion-item>
+    </ion-item-sliding>
+    </ion-list>
   </div>
   <ion-fab right bottom (click)="cargarFormularioNuevoPedido()">
     <button ion-fab color="primary" mini><ion-icon name="add"></ion-icon></button>

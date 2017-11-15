@@ -30,6 +30,12 @@ export class PedidoService {
     }).toPromise().then(this.extractData).catch(this.handleErrorObservable);
   }
 
+  listaPedidosCliente(vendedor:string){
+    return this._http.get(this.URL_API_PEDIDO+'/autorizacion?vendedor='+vendedor,{
+      headers: this.bearerAccess()
+    }).toPromise().then(this.extractData).catch(this.handleErrorObservable);
+  }
+
   bearerAccess():Headers{
      let headers = new Headers();
      headers.append('Authorization','Bearer '+window.sessionStorage.getItem('access_token'));
