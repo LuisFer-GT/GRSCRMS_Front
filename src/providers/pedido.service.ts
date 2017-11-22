@@ -36,6 +36,18 @@ export class PedidoService {
     }).toPromise().then(this.extractData).catch(this.handleErrorObservable);
   }
 
+  listaDetallePedidoCreado(docEntry:number){
+    return this._http.get(this.URL_API_PEDIDO+'/creado/detalle?docEntry='+docEntry,{
+      headers: this.bearerAccess()
+    }).toPromise().then(this.extractData).catch(this.handleErrorObservable);
+  }
+
+  listaDetalleAutorizacion(pedido){
+    return this._http.post(this.URL_API_PEDIDO+'/detalle',pedido,{
+      headers: this.bearerAccess()
+    }).toPromise().then(this.extractData).catch(this.handleErrorObservable);
+  }
+
   bearerAccess():Headers{
      let headers = new Headers();
      headers.append('Authorization','Bearer '+window.sessionStorage.getItem('access_token'));

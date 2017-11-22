@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController,NavParams,AlertController,ToastController } from 'ionic-angular';
 import { Usuario } from '../../model/usuario';
 import { LoginService } from '../../providers/login.service';
-import { HomePage } from '../../pages/home/home';
+import { PedidoPage } from '../../pages/pedido/pedido';
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
@@ -28,8 +28,8 @@ export class LoginPage {
         if(data){
           this._loginService.userInfo().then(info=>{
             window.sessionStorage.setItem('usuario',JSON.stringify(info));
+            this.navCtrl.setRoot(PedidoPage);
           });
-          this.navCtrl.setRoot(HomePage);
         }else{
           this.toastCtrl.create({
              message: '¡Verifique sus credenciales!',

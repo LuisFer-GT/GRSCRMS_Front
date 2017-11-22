@@ -3,7 +3,7 @@ import { Nav,Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { LoginService } from '../providers/login.service';
-import { HomePage } from '../pages/home/home';
+//import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { PedidoPage } from '../pages/pedido/pedido';
 import { Usuario } from '../model/usuario';
@@ -16,12 +16,12 @@ export class MyApp {
   paginas:Array<{titulo:string,component:any,icon:any}>;
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,private _loginService:LoginService,private zone:NgZone) {
     if(this._loginService.isAuthenticated()){
-      this.rootPage = HomePage;
+      this.rootPage = PedidoPage;
     }else{
         this.rootPage= LoginPage;
     }
     this.paginas=[
-      {titulo:'Home',component:HomePage,icon:'home'},
+      //{titulo:'Home',component:HomePage,icon:'home'},
       {titulo:'Pedidos',component:PedidoPage,icon:'md-list-box'}
     ];
     platform.ready().then(() => {

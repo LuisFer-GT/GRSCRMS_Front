@@ -14,7 +14,10 @@
         Creados
       </ion-segment-button>
       <ion-segment-button value="Autorizacion">
-        Autorización
+        Pendientes
+      </ion-segment-button>
+      <ion-segment-button value="Rechazado">
+        Rechazados
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
@@ -22,6 +25,10 @@
 
 
 <ion-content no-padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+   <ion-refresher-content  pullingText="Actualizando Espere...">
+   </ion-refresher-content>
+ </ion-refresher>
   <div *ngIf="tipoTarea==='Creado'">
     <ion-searchbar [(ngModel)]="busqueda" placeholder="Buscar por número de pedido"></ion-searchbar>
     <ion-list>
@@ -34,6 +41,12 @@
               {{pedido.Comentario}}
             </p>
           </ion-item>
+          <ion-item-options side="right">
+            <button ion-button expandable  color="secundary" (click)="detallePedido(pedido)">
+              <ion-icon name="list-box"></ion-icon>
+              Detalles
+            </button>
+          </ion-item-options>
         </ion-item-sliding>
     </ion-list>
   </div>
@@ -41,13 +54,41 @@
     <ion-list>
       <ion-item-sliding *ngFor="let pedido of listaAutorizaciones">
       <ion-item style="white-space: normal;" >
-        <h6><ion-icon name="calendar"></ion-icon> {{pedido.fecha_vencimiento | date:'dd-MM-yyyy'}}</h6>
+        <h6><ion-icon name="calendar"></ion-icon> {{pedido.fechaEntrega | date:'dd-MM-yyyy'}}</h6>
         <strong> <ion-icon name="document"></ion-icon> #{{pedido.codigo_cliente}}</strong> - {{pedido.cliente}}
         <hr>
         <p style="white-space: normal;font-size:12px">
           {{pedido.comentario}}
         </p>
+        <ion-badge item-end>{{pedido.estado}}</ion-badge>
       </ion-item>
+      <ion-item-options side="right">
+        <button ion-button expandable (click)="detallePedidoAutorizacion(pedido)">
+          <ion-icon name="list-box"></ion-icon>
+          Detalles
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+    </ion-list>
+  </div>
+  <div *ngIf="tipoTarea==='Rechazado'">
+    <ion-list>
+      <ion-item-sliding *ngFor="let pedido of listaRechazado">
+      <ion-item style="white-space: normal;" >
+        <h6><ion-icon name="calendar"></ion-icon> {{pedido.fechaEntrega | date:'dd-MM-yyyy'}}</h6>
+        <strong> <ion-icon name="document"></ion-icon> #{{pedido.codigo_cliente}}</strong> - {{pedido.cliente}}
+        <hr>
+        <p style="white-space: normal;font-size:12px">
+          {{pedido.comentario}}
+        </p>
+        <ion-badge item-end color="danger">{{pedido.estado}}</ion-badge>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button expandable (click)="detallePedidoAutorizacion(pedido)">
+          <ion-icon name="list-box"></ion-icon>
+          Detalles
+        </button>
+      </ion-item-options>
     </ion-item-sliding>
     </ion-list>
   </div>

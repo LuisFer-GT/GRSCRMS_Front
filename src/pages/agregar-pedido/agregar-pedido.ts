@@ -24,11 +24,17 @@ export class AgregarPedidoPage {
   mostrarDatos:boolean=false;
   listaSaldo;
   cliente;
+  min:string='';
+  max:string='';
+  btnEnable:boolean=false;
   constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl:ModalController, public _toastController:ToastController, public _clienteService:ClienteService,public _pedidoService:PedidoService, public alertCtrl:AlertController) {
     this.pedido=new Pedido();
+    this.min = new Date().toISOString();
+    this.max = new Date(new Date().setFullYear(new Date().getFullYear()+1)).toISOString();
   }
 
   agregar(){
+    this.btnEnable=true;
     this.pedido.fechaEntrega=Soporte.formattedDate(new Date);
     this.pedido.detalle = this.detallePedido;
     this.pedido.vendedor = this.cliente.Vendedor;
@@ -108,22 +114,30 @@ export class AgregarPedidoPage {
   }
 
   mostrarModalClientes(){
-    let modal =  this.modalCtrl.create(AutocompleteClientesPage);
-    let me = this;
-    modal.onDidDismiss(data => {
-      if(data)
-        me.cliente = data;
-      if(me.cliente){
-        me.nombreCliente=me.cliente.Cliente;
-        this.pedido.cliente=me.cliente.Cliente;
-        this.pedido.codigoCliente=me.cliente.Codigo;
-        this.mostrarDatos=true;
-        me._clienteService.saldo(me.cliente).then(data=>{
-          me.listaSaldo=data;
-        });
-      }
-    });
-    modal.present();
+    if(this.cliente==null){
+      let modal =  this.modalCtrl.create(AutocompleteClientesPage);
+      let me = this;
+      modal.onDidDismiss(data => {
+        if(data)
+          me.cliente = data;
+        if(me.cliente){
+          me.nombreCliente=me.cliente.Cliente;
+          this.pedido.cliente=me.cliente.Cliente;
+          this.pedido.codigoCliente=me.cliente.Codigo;
+          this.mostrarDatos=true;
+          me._clienteService.saldo(me.cliente).then(data=>{
+            me.listaSaldo=data;
+          });
+        }
+      });
+      modal.present();
+    }else{
+      let toast = this._toastController.create({
+        message: 'El cliente ya fue seleccionado.',
+        duration: 3000
+      });
+      toast.present();
+    }
   }
 
   mostrarModalDirecciones(){

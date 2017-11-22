@@ -64,7 +64,7 @@ export class LoginService {
    }
 
    userInfo(){
-     return this._http.get(this.URL_API_USUARIO+'/username',{
+     return this._http.get('http://'+window.localStorage.getItem('server')+'/api/v1/usuario/username',{
        headers: this.bearerAccess()
      }).toPromise().then(this.extractData).catch(this.handleErrorObservable);
    }

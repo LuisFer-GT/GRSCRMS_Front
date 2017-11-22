@@ -19,7 +19,9 @@ import { AutocompleteClientesPage } from '../pages/autocomplete-clientes/autocom
 import {AutocompleteDirecciones} from '../pages/autocomplete-direcciones/autocomplete-direcciones';
 import {DetallePedidoPage} from '../pages/detalle-pedido/detalle-pedido';
 import {AutocompleteArticuloPage} from '../pages/autocomplete-articulo/autocomplete-articulo';
-
+import {DetalleArticuloPage} from '../pages/detalle-articulo/detalle-articulo';
+import {InfoPedidoPage} from '../pages/info-pedido/info-pedido';
+import {DetalleAutorizacion} from '../pages/detalle-autorizacion/detalle-autorizacion';
 /*
  * Import Services
 */
@@ -46,7 +48,10 @@ import { DistinctPipe } from '../pipe/distinct';
     DetallePedidoPage,
     AutocompleteArticuloPage,
     AgruparClientePipe,
-    DistinctPipe
+    DistinctPipe,
+    DetalleArticuloPage,
+    InfoPedidoPage,
+    DetalleAutorizacion
   ],
   imports: [
     BrowserModule,
@@ -63,7 +68,10 @@ import { DistinctPipe } from '../pipe/distinct';
     AutocompleteClientesPage,
     AutocompleteDirecciones,
     DetallePedidoPage,
-    AutocompleteArticuloPage
+    AutocompleteArticuloPage,
+    DetalleArticuloPage,
+    InfoPedidoPage,
+    DetalleAutorizacion
   ],
   providers: [
     StatusBar,

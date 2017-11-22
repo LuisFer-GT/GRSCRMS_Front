@@ -1,6 +1,8 @@
 import { Component,NgZone } from '@angular/core';
 import {ViewController, NavController,NavParams } from 'ionic-angular';
 import {ArticuloService} from '../../providers/articulo.service';
+import {DetalleArticuloPage} from '../detalle-articulo/detalle-articulo';
+
 @Component({
   selector: 'page-autocomplete-articulo',
   templateUrl: 'autocomplete-articulo.html',
@@ -29,6 +31,7 @@ export class AutocompleteArticuloPage {
   }
 
   seleccionarItem(item: any) {
+    item.Precio = Number(item.Precio)*1.12;
     this.viewCtrl.dismiss(item);
   }
 
@@ -41,6 +44,12 @@ export class AutocompleteArticuloPage {
     this.autocompleteItems = this.listado;
     this.zone.run(()=>{
         me.autocompleteItems = this.autocompleteItems.filter(item => item.Articulo.toLowerCase().match(new RegExp(this.autocomplete.query.toLowerCase(),'i')));
+    });
+  }
+
+  detalles(item){
+    this._articuloService.detalle(item.Articulo).then(detalle=>{
+      this.navCtrl.push(DetalleArticuloPage,{detalle: detalle[0]})
     });
   }
 
