@@ -31,8 +31,6 @@ export class PedidoPage {
   listasDeDatos(){
     this._pedidoService.listarPedidosCreados(this._loginService.userLogged().codigoVendedor).then(data=>{
       this.listaPedidos=<Array<Pedido>>data;
-      this.listadoEntregasAux=data;
-      this.listadoEntregasAux=Function.distinct(this.listadoEntregasAux);
     });
 
     this._pedidoService.listaPedidosCliente(this._loginService.userLogged().nombre).then(data=>{
@@ -43,6 +41,7 @@ export class PedidoPage {
           this.listaRechazado.push(pedido);
         }
       }
+
     });
   }
 
@@ -65,9 +64,10 @@ export class PedidoPage {
       this.listaPedidos=<Array<Pedido>>data;
 
       this._pedidoService.listaPedidosCliente(this._loginService.userLogged().nombre).then(data=>{
+        this.listaAutorizaciones=[];
+        this.listaRechazado=[];
         for(let pedido of data){
-          if(pedido.estado!=='Autorizado'){
-            this.listaAutorizaciones=[];
+          if(pedido.estado==='Pendiente'){
             this.listaAutorizaciones.push(pedido);
           }else if(pedido.estado==='Rechazado'){
             this.listaRechazado.push(pedido);

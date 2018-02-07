@@ -75,7 +75,7 @@ export class LoginService {
    }
 
   validUser(username:string){
-    return this._http.get('http://localhost:3000/api/v1/validUser?username='+username,{
+    return this._http.get('http://'+window.localStorage.getItem('server')+'/api/v1/validUser?username='+username,{
       headers: this.bearerAccess()
     }).toPromise();
   }
