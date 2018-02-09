@@ -18,17 +18,17 @@
         <ion-col>
           <ion-chip>
             <ion-icon name="md-cart" color="primary"></ion-icon>
-            <ion-label>Bodega Central {{detalle.Existencia_Bodega_Principal}}</ion-label>
+            <ion-label>Bodega Central {{detalle.Existencia_Bodega_Principal | number:'.0-0'}}</ion-label>
           </ion-chip>
           <ion-chip>
             <ion-icon name="md-cart" color="primary"></ion-icon>
-            <ion-label>Otras Bodegas {{detalle.Existencia_Otras_Bodegas}}</ion-label>
+            <ion-label>Otras Bodegas {{detalle.Existencia_Otras_Bodegas | number:'.0-0'}}</ion-label>
           </ion-chip>
         </ion-col>
         <ion-col>
           <ion-chip>
             <ion-icon name="md-repeat" color="primary"></ion-icon>
-            <ion-label>Transito {{detalle.En_Transito}}</ion-label>
+            <ion-label>Transito {{detalle.En_Transito | number:'.0-0'}}</ion-label>
           </ion-chip>
         </ion-col>
       </ion-row>

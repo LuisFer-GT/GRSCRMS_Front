@@ -159,6 +159,7 @@ export class AgregarPedidoPage {
       let me = this;
       modal.onDidDismiss(data => {
         if(data){
+          data.precio = Math.round(data.precio * 100) / 100;
           me.detallePedido.push(data);
           this.pedido.total+=Number(data.precio)*Number(data.cantidad);
         }

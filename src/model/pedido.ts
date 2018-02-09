@@ -1,5 +1,5 @@
 import { DetallePedido } from './detalle-pedido';
-
+import { Usuario } from './usuario';
 export class Pedido{
   idPedido:number;
   fechaEntrega:string;
@@ -14,6 +14,6 @@ export class Pedido{
   estado:string;
   fecha:string;
   vendedor:string;
-  
+  usuario:Usuario;
   constructor(){}
 }

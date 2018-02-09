@@ -9,23 +9,25 @@ import { Cliente } from '../model/cliente';
 @Injectable()
 export class ClienteService {
   private URL_API_CLIENTE:string='http://'+window.localStorage.getItem('server')+'/api/v1/cliente/';
-
-  constructor(private _http:Http) {  }
+  usuario;
+  constructor(private _http:Http) {
+    this.usuario =  JSON.parse(window.sessionStorage.getItem('usuario'));
+  }
 
   listaCliente(){
-    return this._http.get(this.URL_API_CLIENTE,{
+    return this._http.get(this.URL_API_CLIENTE+'?pais='+this.usuario.pais,{
       headers:this.bearerAccess()
     }).toPromise().then(this.extractData).catch(this.handleErrorObservable);
   }
 
   listaDireccion(cliente:Cliente){
-    return this._http.get(this.URL_API_CLIENTE+'direcciones?idCliente='+cliente.Codigo,{
+    return this._http.get(this.URL_API_CLIENTE+'direcciones?idCliente='+cliente.Codigo+'&pais='+this.usuario.pais,{
       headers:this.bearerAccess()
     }).toPromise().then(this.extractData).catch(this.handleErrorObservable);
   }
 
   saldo(cliente:Cliente){
-    return this._http.get(this.URL_API_CLIENTE+'saldo?idCliente='+cliente.Codigo,{
+    return this._http.get(this.URL_API_CLIENTE+'saldo?idCliente='+cliente.Codigo+'&pais='+this.usuario.pais,{
       headers:this.bearerAccess()
     }).toPromise().then(this.extractData).catch(this.handleErrorObservable);
   }

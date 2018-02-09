@@ -28,7 +28,14 @@ export class LoginPage {
         if(data){
           this._loginService.userInfo().then(info=>{
             window.sessionStorage.setItem('usuario',JSON.stringify(info));
-            this.navCtrl.setRoot(PedidoPage);
+            if(info.authorities[0].authority==='ROL_SALE'){
+              this.navCtrl.setRoot(PedidoPage);
+            }else if(info.authorities[0].authority!=='ROL_SALE'){
+              this.toastCtrl.create({
+                 message: '¡Al parecer no tienes acceso a esta aplicación, contacta a tu administrador!',
+                 duration: 5000
+               }).present();
+            }
           });
         }else{
           this.toastCtrl.create({

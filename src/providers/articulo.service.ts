@@ -9,17 +9,19 @@ import { Cliente } from '../model/cliente';
 @Injectable()
 export class ArticuloService {
   private URL_API_ARTICULO:string='http://'+window.localStorage.getItem('server')+'/api/v1/articulo/';
-
-  constructor(private _http:Http) {  }
+  usuario;
+  constructor(private _http:Http) {
+      this.usuario =  JSON.parse(window.sessionStorage.getItem('usuario'));
+  }
 
   listaArticulos(cliente:Cliente){
-    return this._http.get(this.URL_API_ARTICULO+'?listaCliente='+cliente.ListaDePrecios,{
+    return this._http.get(this.URL_API_ARTICULO+'?listaCliente='+cliente.ListaDePrecios+'&pais='+this.usuario.pais,{
       headers:this.bearerAccess()
     }).toPromise().then(this.extractData).catch(this.handleErrorObservable);
   }
 
   detalle(articulo:string){
-    return this._http.get(this.URL_API_ARTICULO+'detalle?articulo='+articulo,{
+    return this._http.get(this.URL_API_ARTICULO+'detalle?articulo='+articulo+'&pais='+this.usuario.pais,{
       headers: this.bearerAccess()
     }).toPromise().then(this.extractData).catch(this.handleErrorObservable);
   }
