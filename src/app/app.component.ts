@@ -7,6 +7,8 @@ import { LoginService } from '../providers/login.service';
 import { LoginPage } from '../pages/login/login';
 import { PedidoPage } from '../pages/pedido/pedido';
 import { Usuario } from '../model/usuario';
+import { ConfiguracionPage } from './../pages/configuracion/configuracion';
+import { Configuracion } from '../model/configuracion';
 @Component({
   templateUrl: 'app.html'
 })
@@ -20,10 +22,19 @@ export class MyApp {
     }else{
         this.rootPage= LoginPage;
     }
+    if(window.localStorage.getItem("configuracion")==null){
+      console.log("Dentro");
+      let configuracion:Configuracion=new Configuracion();
+      configuracion.soloMisClientes=true;
+      window.localStorage.setItem('configuracion',JSON.stringify(configuracion));
+    }
+    
     this.paginas=[
       //{titulo:'Home',component:HomePage,icon:'home'},
-      {titulo:'Pedidos',component:PedidoPage,icon:'md-list-box'}
+      {titulo:'Pedidos',component:PedidoPage,icon:'md-list-box'},
+      {titulo:'Configuración',component: ConfiguracionPage, icon: 'md-cog'}
     ];
+
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.

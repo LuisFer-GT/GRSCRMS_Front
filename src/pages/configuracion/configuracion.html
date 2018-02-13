@@ -1,0 +1,24 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+        <ion-title>
+            Configuraciones
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+    <ion-list>
+        <ion-item-divider>
+            Opciones de Clientes
+            <ion-icon name="users"></ion-icon>
+        </ion-item-divider>
+        <ion-item>
+            <ion-label>Visualizar Solo mis clientes</ion-label>
+            <ion-toggle color="secondary" [(ngModel)]="configuracion.soloMisClientes" (ionChange)="cambiarConfigSoloMisClientes()"></ion-toggle>
+        </ion-item>
+    </ion-list>
+</ion-content>

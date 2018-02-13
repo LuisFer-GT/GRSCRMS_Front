@@ -30,14 +30,14 @@ export class PedidoPage {
 
   listasDeDatos(){
     this._pedidoService.listarPedidosCreados(this._loginService.userLogged().codigoVendedor).then(data=>{
-      console.log(data);
       this.listaPedidos=<Array<Pedido>>data;
-      console.log(this.listaPedidos);
     });
 
     this._pedidoService.listaPedidosCliente(this._loginService.userLogged().nombre).then(data=>{
+      console.log("Data(U): ",data);
       for(let pedido of data){
         if(pedido.estado==='Pendiente'){
+          console.log("Dentro Pendiente:", pedido,);
           this.listaAutorizaciones.push(pedido);
         }else if(pedido.estado==='Rechazado'){
           this.listaRechazado.push(pedido);

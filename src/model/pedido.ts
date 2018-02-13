@@ -6,7 +6,7 @@ export class Pedido{
   cliente:any;
   codigoCliente:string;
   direccionEntrega:string;
-  talonarioPedido:string;
+  talonarioDePedido:string;
   comentario:string;
   detalle:Array<DetallePedido>;
   total:number=0;

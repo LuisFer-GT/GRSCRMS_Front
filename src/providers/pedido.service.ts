@@ -18,6 +18,7 @@ export class PedidoService {
     let usuario =<Usuario> JSON.parse(window.sessionStorage.getItem('usuario'));
     delete usuario.authorities;
     pedido.usuario=usuario;
+    console.log(pedido);
     return this._http.post(this.URL_API_PEDIDO+'?pais='+this.usuario.pais,pedido,{
       headers:this.bearerAccess()
     }).toPromise().then(this.extractData).catch(this.handleErrorObservable);

@@ -35,7 +35,7 @@ export class AgregarPedidoPage {
 
   agregar(){
     this.btnEnable=true;
-    this.pedido.fechaEntrega=Soporte.formattedDate(new Date);
+    this.pedido.fechaEntrega=Soporte.formattedDate(new Date());
     this.pedido.detalle = this.detallePedido;
     this.pedido.vendedor = this.cliente.Vendedor;
     if(this.detallePedido.length>0 ){
@@ -66,7 +66,7 @@ export class AgregarPedidoPage {
           });
           prompt.present();
         }else if(this.listaSaldo.length>0){
-          if(Number(this.listaSaldo[0].Saldo)>=this.pedido.cliente.LimiteDeCredito || (this.pedido.total> Number(this.pedido.cliente.LimiteDeCredito)-Number(this.listaSaldo[0].Saldo)) || this.listaSaldo[0].Dias>0){
+          if(Number(this.listaSaldo[0].Saldo)>=this.cliente.LimiteDeCredito || (this.pedido.total> Number(this.cliente.LimiteDeCredito)-Number(this.listaSaldo[0].Saldo)) || this.listaSaldo[0].Dias>0){
 
             let prompt = this.alertCtrl.create({
               title: 'Atención',
@@ -94,6 +94,11 @@ export class AgregarPedidoPage {
               ]
             });
             prompt.present();
+          }else{
+            this._toastController.create({
+              message: "No es posible realizar la creación del pedido, contacte a creditos y facturación para mayor información.",
+              duration: 3000
+            }).present();
           }
         }
 
@@ -118,8 +123,9 @@ export class AgregarPedidoPage {
       let modal =  this.modalCtrl.create(AutocompleteClientesPage);
       let me = this;
       modal.onDidDismiss(data => {
-        if(data)
+        if(data){
           me.cliente = data;
+        }
         if(me.cliente){
           me.nombreCliente=me.cliente.Cliente;
           this.pedido.cliente=me.cliente.Cliente;
