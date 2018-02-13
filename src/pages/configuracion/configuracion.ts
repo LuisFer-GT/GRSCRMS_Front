@@ -20,8 +20,8 @@ export class ConfiguracionPage {
   ionViewDidLoad() {
 
   }
-  cambiarConfigSoloMisClientes(){
-    this.configuracion.soloMisClientes=!this.configuracion.soloMisClientes;
+  cambiarConfigSoloMisClientes(event){
+    this.configuracion.soloMisClientes=event.value;
     window.localStorage.removeItem('configuracion');
     window.localStorage.setItem('configuracion',JSON.stringify(this.configuracion));
   }

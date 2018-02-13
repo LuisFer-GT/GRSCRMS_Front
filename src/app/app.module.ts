@@ -36,6 +36,7 @@ import { PedidoService } from '../providers/pedido.service';
 */
 import { AgruparClientePipe } from '../pipe/agrupar-cliente';
 import { DistinctPipe } from '../pipe/distinct';
+import {SearchPipe } from '../pipe/search.pipe';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { DistinctPipe } from '../pipe/distinct';
     DetalleArticuloPage,
     InfoPedidoPage,
     DetalleAutorizacion,
-    ConfiguracionPage
+    ConfiguracionPage,
+    SearchPipe
   ],
   imports: [
     BrowserModule,

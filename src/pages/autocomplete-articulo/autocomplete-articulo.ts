@@ -31,7 +31,6 @@ export class AutocompleteArticuloPage {
   }
 
   seleccionarItem(item: any) {
-    item.Precio = Number(item.Precio)*1.12;
     this.viewCtrl.dismiss(item);
   }
 

@@ -4,5 +4,6 @@ export class DetallePedido{
   cantidad:number;
   promocional:string="No";
   precio:number=0.0;
+  Currency:string;
   constructor(){}
 }

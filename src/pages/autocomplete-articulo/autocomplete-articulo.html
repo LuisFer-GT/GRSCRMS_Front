@@ -1,26 +1,26 @@
 <ion-header>
 
-  <ion-navbar  color="primary">
-    <ion-title>Listado de Articulos</ion-title>
-    <ion-searchbar [(ngModel)]="autocomplete.query" [showCancelButton]="true" (ionInput)="actualizarBusqueda()" (ionCancel)="dismiss()"></ion-searchbar>
-  </ion-navbar>
+    <ion-navbar color="primary">
+        <ion-title>Listado de Articulos</ion-title>
+        <ion-searchbar [(ngModel)]="autocomplete.query" [showCancelButton]="true" (ionInput)="actualizarBusqueda()" (ionCancel)="dismiss()"></ion-searchbar>
+    </ion-navbar>
 
 </ion-header>
 <ion-content>
-  <ion-list>
-    <ion-item-sliding *ngFor="let item of autocompleteItems">
-      <ion-item  tappable (click)="seleccionarItem(item)" style="white-space: normal;">
-        <h5>{{ item.Articulo }} <strong>Q.{{(item.Precio*1.12) | number:'.1-2'}}</strong></h5>
-        <p style="white-space: normal;">{{item.Descripcion}}</p>
-        <ion-badge item-end *ngIf="item.Existencias>0">{{item.Existencias | number: '.0-0' }}</ion-badge>
-        <ion-badge item-end *ngIf="item.Existencias<=0" color="danger">Sin Stock</ion-badge>
-      </ion-item>
-      <ion-item-options side="right">
-        <button ion-button color="secondary" (click)="detalles(item)">
+    <ion-list>
+        <ion-item-sliding *ngFor="let item of autocompleteItems">
+            <ion-item tappable (click)="seleccionarItem(item)" style="white-space: normal;">
+                <h5>{{ item.Articulo }} <strong>{{(item.Precio) | currency: item.Currency}}</strong> </h5>
+                <p style="white-space: normal;">{{item.Descripcion}}</p>
+                <ion-badge item-end *ngIf="item.Existencias>0">{{item.Existencias | number: '.0-0' }}</ion-badge>
+                <ion-badge item-end *ngIf="item.Existencias<=0" color="danger">Sin Stock</ion-badge>
+            </ion-item>
+            <ion-item-options side="right">
+                <button ion-button color="secondary" (click)="detalles(item)">
           <ion-icon name="md-list"></ion-icon>
           Detalles
         </button>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
 </ion-content>

@@ -5,6 +5,7 @@ import { Observable } from "rxjs";
 import  "rxjs/add/operator/toPromise";
 
 import { Cliente } from '../model/cliente';
+import { Configuracion } from '../model/configuracion';
 
 @Injectable()
 export class ClienteService {
@@ -15,7 +16,8 @@ export class ClienteService {
   }
 
   listaCliente(){
-    return this._http.get(this.URL_API_CLIENTE+'?pais='+this.usuario.pais,{
+    let config:Configuracion= JSON.parse(window.localStorage.getItem('configuracion'));
+    return this._http.get(this.URL_API_CLIENTE+'?pais='+this.usuario.pais+'&todo='+config.soloMisClientes,{
       headers:this.bearerAccess()
     }).toPromise().then(this.extractData).catch(this.handleErrorObservable);
   }

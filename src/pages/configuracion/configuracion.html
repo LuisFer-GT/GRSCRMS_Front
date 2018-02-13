@@ -18,7 +18,7 @@
         </ion-item-divider>
         <ion-item>
             <ion-label>Visualizar Solo mis clientes</ion-label>
-            <ion-toggle color="secondary" [(ngModel)]="configuracion.soloMisClientes" (ionChange)="cambiarConfigSoloMisClientes()"></ion-toggle>
+            <ion-toggle color="secondary" [checked]="configuracion.soloMisClientes" (ionChange)="cambiarConfigSoloMisClientes($event)"></ion-toggle>
         </ion-item>
     </ion-list>
 </ion-content>

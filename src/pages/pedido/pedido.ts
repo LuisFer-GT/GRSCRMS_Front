@@ -17,6 +17,7 @@ export class PedidoPage {
   listaAutorizaciones:Array<Pedido>=[];
   listaRechazado:Array<Pedido>=[];
   tipoTarea:string='Creado';
+  busqueda:string='';
   public loading:boolean;
 
   constructor(
@@ -34,10 +35,8 @@ export class PedidoPage {
     });
 
     this._pedidoService.listaPedidosCliente(this._loginService.userLogged().nombre).then(data=>{
-      console.log("Data(U): ",data);
       for(let pedido of data){
         if(pedido.estado==='Pendiente'){
-          console.log("Dentro Pendiente:", pedido,);
           this.listaAutorizaciones.push(pedido);
         }else if(pedido.estado==='Rechazado'){
           this.listaRechazado.push(pedido);
