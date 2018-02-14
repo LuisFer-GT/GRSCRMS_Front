@@ -8,7 +8,7 @@ import { Cliente } from '../model/cliente';
 
 @Injectable()
 export class ArticuloService {
-  private URL_API_ARTICULO:string='http://'+window.localStorage.getItem('server')+'/api/v1/articulo/';
+  private URL_API_ARTICULO:string='https://'+window.localStorage.getItem('server')+'/api/v1/articulo/';
   usuario;
   constructor(private _http:Http) {
       this.usuario =  JSON.parse(window.sessionStorage.getItem('usuario'));

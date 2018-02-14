@@ -9,7 +9,7 @@ import { Configuracion } from '../model/configuracion';
 
 @Injectable()
 export class ClienteService {
-  private URL_API_CLIENTE:string='http://'+window.localStorage.getItem('server')+'/api/v1/cliente/';
+  private URL_API_CLIENTE:string='https://'+window.localStorage.getItem('server')+'/api/v1/cliente/';
   usuario;
   constructor(private _http:Http) {
     this.usuario =  JSON.parse(window.sessionStorage.getItem('usuario'));

@@ -3,12 +3,12 @@ import { Http,Headers,Response} from '@angular/http';
 import { ToastController } from 'ionic-angular';
 import { Observable } from "rxjs";
 import  "rxjs/add/operator/toPromise";
-import {Usuario} from '../model/usuario';
 import { Pedido } from '../model/pedido';
+import { Usuario } from './../model/usuario';
 
 @Injectable()
 export class PedidoService {
-  private URL_API_PEDIDO:string='http://'+window.localStorage.getItem('server')+'/api/v1/pedido';
+  private URL_API_PEDIDO:string='https://'+window.localStorage.getItem('server')+'/api/v1/pedido';
   usuario;
   constructor(private _http:Http) {
     this.usuario =  JSON.parse(window.sessionStorage.getItem('usuario'));
@@ -52,6 +52,7 @@ export class PedidoService {
   }
 
   listaDetalleAutorizacion(pedido){
+    delete pedido.usuario.authorities;
     return this._http.post(this.URL_API_PEDIDO+'/detalle'+'?pais='+this.usuario.pais,pedido,{
       headers: this.bearerAccess()
     }).toPromise().then(this.extractData).catch(this.handleErrorObservable);

@@ -6,7 +6,7 @@ import  "rxjs/add/operator/toPromise";
 
 @Injectable()
 export class LoginService {
-  URL_API_USUARIO:string='http://'+window.localStorage.getItem('server')+'/api/v1/usuario';
+  URL_API_USUARIO:string='https://'+window.localStorage.getItem('server')+'/api/v1/usuario';
 
   isLogged:boolean=false;
   constructor(private _http:Http,private toastCtrl: ToastController) { }
@@ -18,7 +18,7 @@ export class LoginService {
      headers.append('Authorization','Basic Y3JtOmdycy5lbGVjdHJvbmljcw==');
 
      return new Promise((resolve) => {
-          this._http.post('http://'+window.localStorage.getItem('server')+'/oauth/token', creds, {headers:
+          this._http.post('https://'+window.localStorage.getItem('server')+'/oauth/token', creds, {headers:
           headers}).subscribe((data) => {
               if(data) {
                   window.sessionStorage.setItem('access_token',
@@ -64,7 +64,7 @@ export class LoginService {
    }
 
    userInfo(){
-     return this._http.get('http://'+window.localStorage.getItem('server')+'/api/v1/usuario/username',{
+     return this._http.get('https://'+window.localStorage.getItem('server')+'/api/v1/usuario/username',{
        headers: this.bearerAccess()
      }).toPromise().then(this.extractData).catch(this.handleErrorObservable);
    }
@@ -75,7 +75,7 @@ export class LoginService {
    }
 
   validUser(username:string){
-    return this._http.get('http://'+window.localStorage.getItem('server')+'/api/v1/validUser?username='+username,{
+    return this._http.get('https://'+window.localStorage.getItem('server')+'/api/v1/validUser?username='+username,{
       headers: this.bearerAccess()
     }).toPromise();
   }
