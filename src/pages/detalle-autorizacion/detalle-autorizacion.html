@@ -1,31 +1,35 @@
 <ion-header>
 
-  <ion-navbar color="primary">
-    <ion-title>Detalle Pedido</ion-title>
-  </ion-navbar>
+    <ion-navbar color="primary">
+        <ion-title>Detalle Pedido</ion-title>
+    </ion-navbar>
 
 </ion-header>
 
 <ion-content no-padding>
-  <ion-list>
-    <ion-item-divider color="light">Cabecera Pedido</ion-item-divider>
-    <ion-item><div item-right><ion-icon name="calendar"></ion-icon> {{cabecera.fechaEntrega | date:'dd/MM/yyyy'}} </div></ion-item>
-    <ion-item>
-      {{cabecera.cliente}}
-      <ion-badge item-end>{{cabecera.estado}}</ion-badge>
-    </ion-item>
-    <ion-item>
-      <p style="white-space: normal;font-size:12px">{{cabecera.comentarioAutorizacion}}</p>
-    </ion-item>
-    <ion-item style="white-space: normal;font-size:12px">{{cabecera.comentario}}</ion-item>
+    <ion-list>
+        <ion-item-divider color="light">Cabecera Pedido</ion-item-divider>
+        <ion-item>
+            <div item-right>
+                <ion-icon name="calendar"></ion-icon> {{cabecera.fechaEntrega}} </div>
+        </ion-item>
+        <ion-item>
+            {{cabecera.cliente}}
+            <ion-badge item-end>{{cabecera.estado}}</ion-badge>
+        </ion-item>
+        <ion-item>
+            <p style="white-space: normal;font-size:12px">{{cabecera.comentarioAutorizacion}}</p>
+        </ion-item>
+        <ion-item style="white-space: normal;font-size:12px">{{cabecera.comentario}}</ion-item>
 
-    <ion-item-divider color="light">Detalle Pedido <div item-right>Total Q. {{total |  number:'.1-3'}}</div></ion-item-divider>
-    <ion-item *ngFor="let detalle of listaDetalle">
-      <h2>{{detalle.articulo}}</h2>
-      <strong>Cantidad. {{detalle.cantidad}} -  Sub Total Q.
- {{detalle.precio |  number:'.1-3'}}</strong>
-      <h6>Promocional {{detalle.promocional}}</h6>
-    </ion-item>
-  </ion-list>
+        <ion-item-divider color="light">Detalle Pedido
+            <div item-right>Total {{total | number:'.1-3'}}</div>
+        </ion-item-divider>
+        <ion-item *ngFor="let detalle of listaDetalle">
+            <h2>{{detalle.articulo}}</h2>
+            <strong>Cantidad. {{detalle.cantidad}} -  Sub Total {{detalle.precio |  number:'.1-3'}}</strong>
+            <h6 *ngIf="detalle.promocional==='Si'">*Promocional</h6>
+        </ion-item>
+    </ion-list>
 
 </ion-content>

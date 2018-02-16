@@ -29,7 +29,10 @@ export class AgregarPedidoPage {
   btnEnable:boolean=false;
   constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl:ModalController, public _toastController:ToastController, public _clienteService:ClienteService,public _pedidoService:PedidoService, public alertCtrl:AlertController) {
     this.pedido=new Pedido();
-    this.min = new Date().toISOString();
+    let comodin1 = new Date();
+    let comodin:Date = new Date();
+    comodin.setDate(comodin.getDate()+1)
+    this.min = comodin.toISOString();
     this.max = new Date(new Date().setFullYear(new Date().getFullYear()+1)).toISOString();
   }
 

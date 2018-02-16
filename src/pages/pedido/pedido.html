@@ -35,7 +35,7 @@
             <ion-item-sliding *ngFor="let pedido of listaPedidos | search:busqueda">
                 <ion-item style="white-space: normal;">
                     <h6>
-                        <ion-icon name="calendar"></ion-icon> {{pedido.FechaVencimiento | date:'dd-MM-yyyy'}}</h6>
+                        <ion-icon name="calendar"></ion-icon> {{pedido.FechaVencimiento}}</h6>
                     <strong> <ion-icon name="document"></ion-icon> #{{pedido.NumPedido}}</strong> - {{pedido.Cliente}}
                     <hr>
                     <p style="white-space: normal;font-size:12px">

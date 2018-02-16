@@ -26,5 +26,4 @@ export class Soporte{
     let month = String(fecha.getMonth() + 1);
     return `${month}`;
   }
-
 }
