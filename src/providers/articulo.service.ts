@@ -26,6 +26,12 @@ export class ArticuloService {
     }).toPromise().then(this.extractData).catch(this.handleErrorObservable);
   }
 
+  listarBodegas(){
+      return this._http.get(this.URL_API_ARTICULO + 'bodega'+'?pais='+this.usuario.pais,{
+        headers : this.bearerAccess()
+      }).toPromise().then(this.extractData).catch(this.handleErrorObservable);
+  }
+
   bearerAccess():Headers{
      let headers = new Headers();
      headers.append('Authorization','Bearer '+window.sessionStorage.getItem('access_token'));

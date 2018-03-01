@@ -57,10 +57,10 @@
                         Articulo
                     </ion-col>
                     <ion-col col-2>
-                        Cantidad
+                        Cant.
                     </ion-col>
                     <ion-col col-2>
-                        Precio
+                        Monto
                     </ion-col>
                     <ion-col col-2>
                         Promo
@@ -73,12 +73,12 @@
             <ion-item-sliding *ngFor="let item of detallePedido">
                 <ion-item class="limpiar" no-padding>
                     <ion-grid>
-                        <ion-row text-center class="body">
+                        <ion-row text-center class="body row responsive-sm">
                             <ion-col col-3 style="white-space: normal;">
                                 {{item.articulo}}
                             </ion-col>
                             <ion-col col-2>
-                                {{item.cantidad}}
+                                {{item.cantidad}} -- {{item.bodega}}
                             </ion-col>
                             <ion-col col-2>
                                 {{item.precio | number:'.1-3'}}

@@ -29,79 +29,33 @@ export class AgregarPedidoPage {
   btnEnable:boolean=false;
   constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl:ModalController, public _toastController:ToastController, public _clienteService:ClienteService,public _pedidoService:PedidoService, public alertCtrl:AlertController) {
     this.pedido=new Pedido();
-    let comodin1 = new Date();
     let comodin:Date = new Date();
     comodin.setDate(comodin.getDate()+1)
     this.min = comodin.toISOString();
+    this.pedido.fechaEntrega = comodin.toISOString();
     this.max = new Date(new Date().setFullYear(new Date().getFullYear()+1)).toISOString();
   }
 
   agregar(){
     this.btnEnable=true;
-    this.pedido.fechaEntrega=Soporte.formattedDate(new Date());
+    this.pedido.fechaEntrega = ""+(new Date(this.pedido.fechaEntrega));
     this.pedido.detalle = this.detallePedido;
     this.pedido.vendedor = this.cliente.Vendedor;
     if(this.detallePedido.length>0 ){
       if( this.pedido.comentario.length>=10){
         if(this.listaSaldo.length<=0){
-          let prompt = this.alertCtrl.create({
-            title: 'Atención',
-            message: "¿Está seguro que desea guardar la información?",
-            buttons: [
-              {
-                text: 'Cancelar',
-                handler: data => {
-                }
-              },
-              {
-                text: 'Guardar',
-                handler: data => {
-                  this._pedidoService.agregar(this.pedido).then(data=>{
-                    this._toastController.create({
-                        message: data.detalle,
-                      duration: 3000
-                    }).present();
-                  });
-                  this.navCtrl.pop();
-                }
-              }
-            ]
-          });
-          prompt.present();
+          this.crearPedidoConAutorizacion();
         }else if(this.listaSaldo.length>0){
-          if(Number(this.listaSaldo[0].Saldo)>=this.cliente.LimiteDeCredito || (this.pedido.total> Number(this.cliente.LimiteDeCredito)-Number(this.listaSaldo[0].Saldo)) || this.listaSaldo[0].Dias>0){
-
-            let prompt = this.alertCtrl.create({
-              title: 'Atención',
-              message: "Para crear el pedido se necesita autorización, ¿Envíar pedido para autorización?",
-              buttons: [
-                {
-                  text: 'Cancelar',
-                  handler: data => {
-                  }
-                },
-                {
-                  text: 'Aceptar',
-                  handler: data => {
-                    this.pedido.estado = 'Pendiente';
-                    this._pedidoService.autorizacion(this.pedido).then(data=>{
-                      this._toastController.create({
-                          message: data.detalle,
-                        duration: 3000
-                      }).present();
-                    });
-                    this.navParams.get('target').listasDeDatos();
-                    this.navCtrl.pop();
-                  }
-                }
-              ]
-            });
-            prompt.present();
+          /*if(Number(this.listaSaldo[0].Saldo)>=this.cliente.LimiteDeCredito || (this.pedido.total> Number(this.cliente.LimiteDeCredito)-Number(this.listaSaldo[0].Saldo)) || this.listaSaldo[0].Dias>0){
+          }*/
+          if(((this.pedido.total<= Number(this.cliente.LimiteDeCredito)-Number(this.listaSaldo[0].Saldo)) && this.listaSaldo[0].Dias<=15)){
+            this.crearPedidoSinAutorizacion();  
           }else{
-            this._toastController.create({
+            this.crearPedidoConAutorizacion();
+            /*this._toastController.create({
               message: "No es posible realizar la creación del pedido, contacte a creditos y facturación para mayor información.",
               duration: 3000
-            }).present();
+            }).present();*/
           }
         }
 
@@ -119,6 +73,62 @@ export class AgregarPedidoPage {
       });
       toast.present();
     }
+  }
+  
+  crearPedidoConAutorizacion(){
+    let prompt = this.alertCtrl.create({
+      title: 'Atención',
+      message: "Para crear el pedido se necesita autorización, ¿Envíar pedido para autorización?",
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: data => {
+          }
+        },
+        {
+          text: 'Aceptar',
+          handler: data => {
+            this.pedido.estado = 'Pendiente';
+            this._pedidoService.autorizacion(this.pedido).then(data=>{
+              this._toastController.create({
+                  message: data.detalle,
+                duration: 3000
+              }).present();
+            });
+            this.navParams.get('target').listasDeDatos();
+            this.navCtrl.pop();
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
+  crearPedidoSinAutorizacion(){
+    let prompt = this.alertCtrl.create({
+      title: 'Atención',
+      message: "¿Está seguro que desea guardar la información?",
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: data => {
+          }
+        },
+        {
+          text: 'Guardar',
+          handler: data => {
+            this._pedidoService.agregar(this.pedido).then(data=>{
+              this._toastController.create({
+                  message: data.detalle,
+                duration: 3000
+              }).present();
+            });
+            this.navCtrl.pop();
+          }
+        }
+      ]
+    });
+    prompt.present();
   }
 
   mostrarModalClientes(){
