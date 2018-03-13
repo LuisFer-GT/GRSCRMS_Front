@@ -1,0 +1,48 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+        <ion-title>Detalle de Cliente</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content no-padding>
+    <ion-list>
+        <ion-item-divider color="primary">
+            Información de cliente
+            <button ion-button color="light" round item-end (click)="mostrar=!mostrar"><ion-icon name="md-arrow-down"></ion-icon></button>
+        </ion-item-divider>
+        <ion-item *ngIf="mostrar">Código <strong>#{{cliente.Codigo}}</strong></ion-item>
+        <ion-item text-wrap *ngIf="mostrar">Cliente {{cliente.Cliente}}</ion-item>
+        <ion-item text-wrap *ngIf="mostrar">Condición de pago, <strong>{{cliente.CondicionDePago}}</strong></ion-item>
+        <ion-item text-wrap *ngIf="mostrar">Gira, <strong>{{cliente.Gira}}</strong></ion-item>
+        <ion-item text-wrap *ngIf="mostrar">Limite de Crédito, <strong>{{cliente.LimiteDeCredito | number:'.1-2'}}</strong></ion-item>
+        <ion-item text-wrap *ngIf="mostrar">Lista de Precios, <strong>{{cliente.ListaDePrecios}}</strong></ion-item>
+        <ion-item text-wrap *ngIf="mostrar">Municipio, <strong>{{cliente.Municipio}}</strong></ion-item>
+        <ion-item text-wrap *ngIf="mostrar">Persona de Contacto <strong>{{cliente.PersonaDeContacto}}</strong></ion-item>
+        <ion-item text-wrap *ngIf="mostrar">Teléfono, <strong>{{cliente.Telefono}}</strong></ion-item>
+        <ion-item text-wrap *ngIf="mostrar">Vendedor, <strong>{{cliente.Vendedor}}</strong></ion-item>
+        <ion-item-divider color="primary" *ngIf="clienteSaldoTotal">
+            Información de Saldo
+            <div item-right><strong>Saldo Total {{clienteSaldoTotal[0].Saldo | number: '.0-2'}}</strong></div>
+        </ion-item-divider>
+        <ion-item *ngIf="clienteSaldoTotal">
+            <ion-searchbar [(ngModel)]="busqueda" placeholder="Buscar por # de factura, fecha."></ion-searchbar>
+        </ion-item>
+        <ion-item *ngFor="let item of clienteDetalleSaldo | SearchSaldoDetalle: busqueda">
+            <h6>
+                <ion-icon name="calendar"></ion-icon> <strong> Fecha Vencimiento {{item.Fecha_Vencimiento}} </strong>
+            </h6>
+            <ion-icon name="document"></ion-icon> # Factura <strong> {{item.No_Documento}}</strong>
+            <hr>
+            <p>
+                <ion-icon name="cash" color="secondary"></ion-icon> Saldo <strong>{{item.Saldo | number: '.0-2'}}</strong>
+            </p>
+            <p>
+                <ion-icon name="cash" color="danger"></ion-icon> Vencido <strong>{{item.Total_Vencido | number: '.0-2'}}</strong>
+            </p>
+        </ion-item>
+    </ion-list>
+
+</ion-content>

@@ -40,15 +40,16 @@ export class LoginPage {
         }else{
           this.toastCtrl.create({
              message: '¡Verifique sus credenciales!',
-             duration: 3000
+             duration: 6000,
+             position: 'top'
            }).present();
         }
       });
     }else{
       this.toastCtrl.create({
          message: '¡Para ingresar es necesario tener credenciales!',
-         duration: 3000,
-         position: 'bottom'
+         duration: 6000,
+         position: 'top'
        }).present();
     }
 

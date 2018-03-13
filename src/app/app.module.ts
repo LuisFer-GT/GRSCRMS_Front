@@ -23,6 +23,7 @@ import {DetalleArticuloPage} from '../pages/detalle-articulo/detalle-articulo';
 import {InfoPedidoPage} from '../pages/info-pedido/info-pedido';
 import {DetalleAutorizacion} from '../pages/detalle-autorizacion/detalle-autorizacion';
 import {ConfiguracionPage} from '../pages/configuracion/configuracion';
+import { ClienteDetallePage } from './../pages/cliente-detalle/cliente-detalle';
 /*
  * Import Services
 */
@@ -30,13 +31,15 @@ import { LoginService } from '../providers/login.service';
 import { ClienteService } from '../providers/cliente.service';
 import { ArticuloService } from '../providers/articulo.service';
 import { PedidoService } from '../providers/pedido.service';
-
+import { ClientePage } from './../pages/cliente/cliente';
 /*
   Pipes
 */
 import { AgruparClientePipe } from '../pipe/agrupar-cliente';
 import { DistinctPipe } from '../pipe/distinct';
 import {SearchPipe } from '../pipe/search.pipe';
+import { SearchClientePipe } from '../pipe/search-cliente.pipe';
+import { SearchSaldoDetallePipe } from '../pipe/search-saldo-detalle.pipe';
 
 @NgModule({
   declarations: [
@@ -55,10 +58,14 @@ import {SearchPipe } from '../pipe/search.pipe';
     InfoPedidoPage,
     DetalleAutorizacion,
     ConfiguracionPage,
-    SearchPipe
+    SearchPipe,
+    ClientePage,
+    SearchClientePipe,
+    ClienteDetallePage,
+    SearchSaldoDetallePipe
   ],
   imports: [
-    BrowserModule,
+BrowserModule,
     HttpModule,
     IonicModule.forRoot(MyApp)
   ],
@@ -76,7 +83,9 @@ import {SearchPipe } from '../pipe/search.pipe';
     DetalleArticuloPage,
     InfoPedidoPage,
     ConfiguracionPage,
-    DetalleAutorizacion
+    DetalleAutorizacion,
+    ClientePage,
+    ClienteDetallePage
   ],
   providers: [
     StatusBar,

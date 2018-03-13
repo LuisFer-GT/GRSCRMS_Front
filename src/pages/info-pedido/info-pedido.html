@@ -7,16 +7,18 @@
 
 <ion-content no-padding>
     <ion-list>
-        <ion-item-divider color="light">Cabecera Pedido</ion-item-divider>
+        <ion-item-divider color="ligth">Cabecera Pedido</ion-item-divider>
         <ion-item>Pedido <strong>#{{cabecera.NumPedido}}</strong>
             <div item-right>
                 <ion-icon name="calendar"></ion-icon> {{cabecera.FechaVencimiento}} </div>
         </ion-item>
         <ion-item>{{cabecera.Cliente}}</ion-item>
-        <ion-item style="white-space: normal;font-size:12px">{{cabecera.Comentario}}</ion-item>
+        <ion-item>
+            <p style="white-space: normal;font-size:12px">{{cabecera.Comentario}}</p>
+        </ion-item>
 
-        <ion-item-divider color="light">Detalle Pedido
-            <div item-right>Total {{total | number:'.1-2'}}</div>
+        <ion-item-divider color="primary">Detalle Pedido
+            <div item-right><strong>Total {{total | number:'.1-2'}}</strong></div>
         </ion-item-divider>
         <ion-item *ngFor="let detalle of listaDetalle">
             <h2>{{detalle.ItemCode}}</h2>
@@ -24,6 +26,8 @@
  {{detalle.Price |  number:'.1-2'}}</strong>
             <strong *ngIf="detalle.U_Promocional==='Si' || detalle.U_Promocional==1">Promocional</strong>
             <p style="white-space: normal;font-size:12px">{{detalle.Dscription}}</p>
+            <ion-badge item-end *ngIf="detalle.LineStatus==='C'" color="secondary">Despachado</ion-badge>
+            <ion-badge item-end *ngIf="detalle.LineStatus==='O'" color="danger">{{detalle.OpenQty | number: '.0-0'}} Sin despachar</ion-badge>
         </ion-item>
     </ion-list>
 

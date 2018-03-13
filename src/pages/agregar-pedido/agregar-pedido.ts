@@ -42,34 +42,44 @@ export class AgregarPedidoPage {
     this.pedido.detalle = this.detallePedido;
     this.pedido.vendedor = this.cliente.Vendedor;
     if(this.detallePedido.length>0 ){
-      if( this.pedido.comentario.length>=10){
-        if(this.listaSaldo.length<=0){
-          this.crearPedidoConAutorizacion();
-        }else if(this.listaSaldo.length>0){
-          /*if(Number(this.listaSaldo[0].Saldo)>=this.cliente.LimiteDeCredito || (this.pedido.total> Number(this.cliente.LimiteDeCredito)-Number(this.listaSaldo[0].Saldo)) || this.listaSaldo[0].Dias>0){
-          }*/
-          if(((this.pedido.total<= Number(this.cliente.LimiteDeCredito)-Number(this.listaSaldo[0].Saldo)) && this.listaSaldo[0].Dias<=15)){
-            this.crearPedidoSinAutorizacion();  
-          }else{
+      if( this.pedido.comentario.length>=10 ){
+        if(this.direccionCliente.length>0){
+          if(this.listaSaldo.length<=0){
             this.crearPedidoConAutorizacion();
-            /*this._toastController.create({
-              message: "No es posible realizar la creación del pedido, contacte a creditos y facturación para mayor información.",
-              duration: 3000
-            }).present();*/
-          }
+          }else if(this.listaSaldo.length>0){
+            /*if(Number(this.listaSaldo[0].Saldo)>=this.cliente.LimiteDeCredito || (this.pedido.total> Number(this.cliente.LimiteDeCredito)-Number(this.listaSaldo[0].Saldo)) || this.listaSaldo[0].Dias>0){
+            }*/
+            if(((this.pedido.total<= Number(this.cliente.LimiteDeCredito)-Number(this.listaSaldo[0].Saldo)) && this.listaSaldo[0].Dias<=15)){
+              this.crearPedidoSinAutorizacion();  
+            }else{
+              this.crearPedidoConAutorizacion();
+              /*this._toastController.create({
+                message: "No es posible realizar la creación del pedido, contacte a creditos y facturación para mayor información.",
+                duration: 3000
+              }).present();*/
+            }
+          } 
+        }else{
+          let toast = this._toastController.create({
+            message: 'Por favor selecciona una dirección.',
+            duration: 6000,
+            position: 'top'
+          });
+          toast.present();
         }
-
       }else{
         let toast = this._toastController.create({
             message: 'El comentario ingresado tiene que tener al menos 10 carácteres.',
-          duration: 3000
+          duration: 6000,
+          position: 'top'
         });
         toast.present();
       }
     }else{
       let toast = this._toastController.create({
           message: 'No se ha añadido lineas al pedido.',
-        duration: 3000
+        duration: 6000,
+        position: 'top'
       });
       toast.present();
     }
@@ -91,8 +101,9 @@ export class AgregarPedidoPage {
             this.pedido.estado = 'Pendiente';
             this._pedidoService.autorizacion(this.pedido).then(data=>{
               this._toastController.create({
-                  message: data.detalle,
-                duration: 3000
+                message: data.detalle,
+                duration: 6000,
+                position: 'top'
               }).present();
             });
             this.navParams.get('target').listasDeDatos();
@@ -153,7 +164,8 @@ export class AgregarPedidoPage {
     }else{
       let toast = this._toastController.create({
         message: 'El cliente ya fue seleccionado.',
-        duration: 3000
+        duration: 6000,
+        position: 'top'
       });
       toast.present();
     }
@@ -188,15 +200,63 @@ export class AgregarPedidoPage {
       //Mostrar alerta
       let toast = this._toastController.create({
         message: 'Por favor selecciona un cliente para agregar líneas al pedido.',
-        duration: 3000
+        duration: 6000,
+        position: 'top'
       });
       toast.present();
     }
   }
 
   eliminarLineaDetalle(item){
-    this.pedido.total-=Number(item.precio)*Number(item.cantidad);
-    this.detallePedido.splice(this.detallePedido.indexOf(item),1);
+    let prompt = this.alertCtrl.create({
+      title: 'Atención',
+      message: "¿Esta seguro que desea eliminar la línea del pedido?",
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: data => {
+          }
+        },
+        {
+          text: 'Aceptar',
+          handler: data => {
+            this.pedido.total-=Number(item.precio)*Number(item.cantidad);
+            this.detallePedido.splice(this.detallePedido.indexOf(item),1);
+            this._toastController.create({
+              message: "La línea del pedido ha sido eliminada",
+              duration: 6000,
+              position: 'top'
+            }).present();
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
+  editarLineaDetalle(item){
+    let precio = item.precio;
+    let cantidad = item.cantidad;
+    if(this.cliente){
+      let modal = this.modalCtrl.create(DetallePedidoPage,{cliente:this.cliente,detalle: item});
+      let me = this;
+      modal.onDidDismiss(data => {
+        if(data){
+          data.precio = Math.round(data.precio * 100) / 100;
+          this.pedido.total-= (Number(precio)*Number(cantidad));
+          this.pedido.total+=Number(data.precio)*Number(data.cantidad);
+        }
+      });
+      modal.present();
+    }else{
+      //Mostrar alerta
+      let toast = this._toastController.create({
+        message: 'Por favor selecciona un cliente para editar líneas al pedido.',
+        duration: 6000,
+        position: 'top'
+      });
+      toast.present();
+    }
   }
 
 }

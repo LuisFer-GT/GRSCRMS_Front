@@ -1,6 +1,5 @@
 .ios, .md {
       page-agregar-pedido  {
-
         .scroll-content {
             background-color: map-get($colors, light);
         }
@@ -50,6 +49,10 @@
     ion-row.header{
       background-color: map-get($colors, primary);
       color:white;
+    }
+
+    .toast-container{
+      background-color: orange;
     }
 
 }

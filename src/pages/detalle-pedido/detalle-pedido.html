@@ -19,13 +19,9 @@
                 <ion-label floating>Cantidad</ion-label>
                 <ion-input type="number" required name="cantidad" [(ngModel)]="detalle.cantidad"></ion-input>
             </ion-item>
-            <ion-item>
-                <ion-label>Producto de remate</ion-label>
-                <ion-toggle checked="false" name="remate" [(ngModel)]="detalle.remate"></ion-toggle>
-            </ion-item>
-            <ion-item *ngIf="detalle.remate === true">
+            <ion-item >
                 <ion-label floating>Bodega</ion-label>
-                <ion-select name="bodega" [(ngModel)]="detalle.bodega">
+                <ion-select name="bodega" [(ngModel)]="detalle.bodega" required #bodega=ngModel>
                     <ion-option *ngFor="let item of listaBodegas" [value]='item.codigo'>{{item.codigo}} - {{item.nombre}} </ion-option>
                 </ion-select>
             </ion-item>

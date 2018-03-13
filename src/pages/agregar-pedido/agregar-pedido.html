@@ -33,7 +33,7 @@
                 </ion-item>
                 <ion-item *ngIf="mostrarDatos">
                     <ion-label floating>Dirección de Entrega</ion-label>
-                    <ion-input type="text" disabled (click)="mostrarModalDirecciones()" [(ngModel)]="direccionCliente" name="entrega"></ion-input>
+                    <ion-input type="text" disabled (click)="mostrarModalDirecciones()" [(ngModel)]="direccionCliente" name="entrega" required></ion-input>
                 </ion-item>
                 <ion-item>
                     <ion-label floating>Talonario De Pedidos</ion-label>
@@ -77,8 +77,8 @@
                             <ion-col col-3 style="white-space: normal;">
                                 {{item.articulo}}
                             </ion-col>
-                            <ion-col col-2>
-                                {{item.cantidad}} -- {{item.bodega}}
+                            <ion-col col-2 style="white-space: normal;">
+                                {{item.cantidad}} <strong>Bodega {{item.bodega}}</strong>
                             </ion-col>
                             <ion-col col-2>
                                 {{item.precio | number:'.1-3'}}
@@ -86,7 +86,7 @@
                             <ion-col col-2>
                                 {{item.promocional}}
                             </ion-col>
-                            <ion-col col-3>
+                            <ion-col col-3 style="white-space: normal;">
                                 {{item.cantidad*item.precio | number:'.1-3' }}
                             </ion-col>
                         </ion-row>
@@ -94,8 +94,13 @@
                 </ion-item>
                 <ion-item-options side="right">
                     <button ion-button color="danger" (click)="eliminarLineaDetalle(item)">
-            <ion-icon name="md-trash"></ion-icon>
-          </button>
+                        <ion-icon name="md-trash"></ion-icon>
+                    </button>
+                </ion-item-options>
+                <ion-item-options side="left">
+                    <button ion-button color="secondary" (click)="editarLineaDetalle(item)">
+                            <ion-icon name="md-create"></ion-icon>
+                        </button>
                 </ion-item-options>
             </ion-item-sliding>
         </ion-list>

@@ -7,6 +7,7 @@ import { Pedido } from '../../model/pedido';
 import { Function } from '../../utils/functions';
 import { InfoPedidoPage } from '../info-pedido/info-pedido';
 import { DetalleAutorizacion } from '../detalle-autorizacion/detalle-autorizacion';
+import { Soporte } from './../../utils/soporte';
 @Component({
   selector: 'page-pedido',
   templateUrl: 'pedido.html',
@@ -31,6 +32,10 @@ export class PedidoPage {
 
   listasDeDatos(){
     this._pedidoService.listarPedidosCreados(this._loginService.userLogged().codigoVendedor).then(data=>{
+      let lista: Array<any> = <Array<any>> data;
+      for(let item of lista){
+        item.FechaVencimiento = Soporte.formattedDate3(new Date(item.FechaVencimiento));
+      }
       this.listaPedidos=<Array<Pedido>>data;
     });
 
@@ -62,8 +67,14 @@ export class PedidoPage {
     this.loading=true;
     this._pedidoService.listarPedidosCreados(this._loginService.userLogged().codigoVendedor).then(data=>{
       this.listaPedidos=[];
-      this.listaPedidos=<Array<Pedido>>data;
 
+      let lista: Array<any> = <Array<any>> data;
+      for(let item of lista){
+        item.FechaVencimiento = Soporte.formattedDate3(new Date(item.FechaVencimiento));
+      }
+
+      this.listaPedidos=<Array<Pedido>>data;
+      
       this._pedidoService.listaPedidosCliente(this._loginService.userLogged().nombre).then(data=>{
         this.listaAutorizaciones=[];
         this.listaRechazado=[];

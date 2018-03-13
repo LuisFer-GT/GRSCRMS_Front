@@ -1,0 +1,29 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+          </button>
+        <ion-title>
+            Clientes
+        </ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content no-padding>
+    <ion-searchbar [(ngModel)]="busqueda" placeholder="Buscar por código o nombre."></ion-searchbar>
+    <ion-list>
+        <ion-item-sliding *ngFor="let item of listaCliente | searchCliente:busqueda">
+            <ion-item text-wrap>
+                <ion-icon name="md-person" color="primary" item-start></ion-icon>
+                <strong> {{item.Codigo}} </strong>
+                <p>{{item.Cliente}}</p>
+            </ion-item>
+            <ion-item-options>
+                <button ion-button expandable color="secondary" (click)="mostrarDetalle(item)">Detalle</button>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
+</ion-content>

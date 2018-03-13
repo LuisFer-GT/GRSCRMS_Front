@@ -34,6 +34,12 @@ export class ClienteService {
     }).toPromise().then(this.extractData).catch(this.handleErrorObservable);
   }
 
+  detalleSaldo(cliente:Cliente){
+    return this._http.get(this.URL_API_CLIENTE+'detalleSaldo?idCliente='+cliente.Codigo+'&pais='+this.usuario.pais,{
+      headers: this.bearerAccess()
+    }).toPromise().then(this.extractData).catch(this.handleErrorObservable);
+  }
+
   bearerAccess():Headers{
      let headers = new Headers();
      headers.append('Authorization','Bearer '+window.sessionStorage.getItem('access_token'));

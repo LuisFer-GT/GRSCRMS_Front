@@ -20,9 +20,18 @@ export class DetallePedidoPage {
     public viewCtrl:ViewController,
     private _articuloService : ArticuloService, 
     public _toastController: ToastController) {
-    
     this.cliente=navParams.get("cliente");
-    this.detalle=new DetallePedido();
+    if( navParams.get("detalle") ){
+      this.detalle= navParams.get("detalle");
+      this.articuloSeleccionado = this.detalle.articulo;
+      if( this.detalle.promocional ==='Si'){
+        this.detalle.promocional = true;
+      }else{
+        this.detalle.promocional = false;
+      }
+    }else{
+      this.detalle=new DetallePedido();
+    }
     this.obtenerBodegas();
   }
 
@@ -32,7 +41,7 @@ export class DetallePedidoPage {
   obtenerBodegas(){
     this._articuloService.listarBodegas().then((result) => {
       for (let item of result) {
-        if ( item.nombre.toLowerCase().includes( 'remate') || item.nombre.toLowerCase().includes( 'central' ) || item.nombre.toLowerCase().includes( 'carpa' )  ) {
+        if ( item.nombre.toLowerCase().includes( 'remate') || item.nombre.toLowerCase().includes( 'central' ) || item.nombre.toLowerCase().includes( 'usados' )  || item.nombre.toLowerCase().includes( 'nacional' )) {
           this.listaBodegas.push(item);
         }
       }
@@ -49,7 +58,8 @@ export class DetallePedidoPage {
     }else{
       let toast = this._toastController.create({
         message: 'La cantidad de unidades a despachar no puede ser cero.',
-        duration: 3000
+        duration: 6000,
+        position: 'top'
       });
       toast.present();
     }
@@ -72,5 +82,4 @@ export class DetallePedidoPage {
     });
     modal.present();
   }
-
 }

@@ -20,10 +20,12 @@
         <ion-item>
             <p style="white-space: normal;font-size:12px">{{cabecera.comentarioAutorizacion}}</p>
         </ion-item>
-        <ion-item style="white-space: normal;font-size:12px">{{cabecera.comentario}}</ion-item>
+        <ion-item>
+            <p style="white-space: normal;font-size:12px">{{cabecera.comentario}}</p>
+        </ion-item>
 
-        <ion-item-divider color="light">Detalle Pedido
-            <div item-right>Total {{total | number:'.1-3'}}</div>
+        <ion-item-divider color="primary">Detalle Pedido
+            <div item-right><strong>Total {{total | number:'.1-3'}}</strong></div>
         </ion-item-divider>
         <ion-item *ngFor="let detalle of listaDetalle">
             <h2>{{detalle.articulo}}</h2>

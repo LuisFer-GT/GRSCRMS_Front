@@ -9,6 +9,7 @@ import { PedidoPage } from '../pages/pedido/pedido';
 import { Usuario } from '../model/usuario';
 import { ConfiguracionPage } from './../pages/configuracion/configuracion';
 import { Configuracion } from '../model/configuracion';
+import { ClientePage } from './../pages/cliente/cliente';
 @Component({
   templateUrl: 'app.html'
 })
@@ -23,7 +24,6 @@ export class MyApp {
         this.rootPage= LoginPage;
     }
     if(window.localStorage.getItem("configuracion")==null){
-      console.log("Dentro");
       let configuracion:Configuracion=new Configuracion();
       configuracion.soloMisClientes=true;
       window.localStorage.setItem('configuracion',JSON.stringify(configuracion));
@@ -32,6 +32,7 @@ export class MyApp {
     this.paginas=[
       //{titulo:'Home',component:HomePage,icon:'home'},
       {titulo:'Pedidos',component:PedidoPage,icon:'md-list-box'},
+      {titulo:'Clientes', component: ClientePage,icon: 'md-people'},
       {titulo:'Configuración',component: ConfiguracionPage, icon: 'md-cog'}
     ];
 
