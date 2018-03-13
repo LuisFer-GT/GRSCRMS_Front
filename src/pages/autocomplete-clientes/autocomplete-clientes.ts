@@ -1,5 +1,5 @@
 import { Component,NgZone } from '@angular/core';
-import { ViewController,NavController,NavParams } from 'ionic-angular';
+import { ViewController,NavController,NavParams, LoadingController } from 'ionic-angular';
 import { ClienteService } from '../../providers/cliente.service';
 @Component({
   selector: 'page-autocomplete-clientes',
@@ -9,7 +9,13 @@ export class AutocompleteClientesPage {
   autocompleteItems;
   autocomplete:{query:string};
   listado;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl:ViewController, private _clienteService:ClienteService,private zone: NgZone) {
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    public viewCtrl:ViewController, 
+    private _clienteService:ClienteService,
+    private zone: NgZone,
+    public loadingCtrl: LoadingController) {
     this.autocompleteItems = [];
     this.autocomplete = {
       query: ''
@@ -18,9 +24,14 @@ export class AutocompleteClientesPage {
   }
 
   listarTodos(){
+    let loading = this.loadingCtrl.create({
+      content: "Cargando clientes..."
+    });
+    loading.present();
     this._clienteService.listaCliente().then(data=>{
       this.autocompleteItems = data;
       this.listado=data;
+      loading.dismiss();
     });
   }
 

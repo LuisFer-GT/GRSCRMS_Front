@@ -10,6 +10,7 @@ import { Usuario } from '../model/usuario';
 import { ConfiguracionPage } from './../pages/configuracion/configuracion';
 import { Configuracion } from '../model/configuracion';
 import { ClientePage } from './../pages/cliente/cliente';
+import { HomePage } from './../pages/home/home';
 @Component({
   templateUrl: 'app.html'
 })
@@ -30,7 +31,7 @@ export class MyApp {
     }
     
     this.paginas=[
-      //{titulo:'Home',component:HomePage,icon:'home'},
+      {titulo:'Inicio',component:HomePage,icon:'home'},
       {titulo:'Pedidos',component:PedidoPage,icon:'md-list-box'},
       {titulo:'Clientes', component: ClientePage,icon: 'md-people'},
       {titulo:'Configuración',component: ConfiguracionPage, icon: 'md-cog'}

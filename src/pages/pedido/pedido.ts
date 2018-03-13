@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController,NavParams,Refresher  } from 'ionic-angular';
+import { NavController, NavParams, Refresher, Loading, LoadingController } from 'ionic-angular';
 import { AgregarPedidoPage } from '../agregar-pedido/agregar-pedido';
 import { LoginService } from '../../providers/login.service';
 import { PedidoService } from '../../providers/pedido.service';
@@ -23,7 +23,10 @@ export class PedidoPage {
 
   constructor(
     public navCtrl: NavController,
-    public navParams: NavParams, private _loginService:LoginService, private _pedidoService:PedidoService) {
+    public navParams: NavParams, 
+    private _loginService:LoginService, 
+    private _pedidoService:PedidoService,
+    public loadingCtrl: LoadingController) {
   }
 
   ionViewDidLoad() {
@@ -31,12 +34,17 @@ export class PedidoPage {
   }
 
   listasDeDatos(){
+    let loading = this.loadingCtrl.create({
+      content: "Cargando..."
+    });
+    loading.present();
     this._pedidoService.listarPedidosCreados(this._loginService.userLogged().codigoVendedor).then(data=>{
       let lista: Array<any> = <Array<any>> data;
       for(let item of lista){
         item.FechaVencimiento = Soporte.formattedDate3(new Date(item.FechaVencimiento));
       }
       this.listaPedidos=<Array<Pedido>>data;
+      
     });
 
     this._pedidoService.listaPedidosCliente(this._loginService.userLogged().nombre).then(data=>{
@@ -47,7 +55,7 @@ export class PedidoPage {
           this.listaRechazado.push(pedido);
         }
       }
-
+      loading.dismiss();
     });
   }
 
