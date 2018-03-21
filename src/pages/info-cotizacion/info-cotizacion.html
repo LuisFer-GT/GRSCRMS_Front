@@ -1,0 +1,39 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+          </button>
+        <ion-title>Detalle de Cotización</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only color="light" (click)="exportarCotizacion()">
+                <ion-icon name="md-download"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content no-padding>
+    <ion-list>
+        <ion-item-divider color="ligth">Cabecera Cotización</ion-item-divider>
+        <ion-item>Cotización <strong>#{{cabecera.idCotizacion}}</strong>
+            <div item-right>
+                <ion-icon name="calendar"></ion-icon> {{cabecera.fechaVencimiento}} </div>
+        </ion-item>
+        <ion-item>{{cabecera.cliente}}</ion-item>
+        <ion-item>
+            <p style="white-space: normal;font-size:12px">{{cabecera.direccionEntrega}}</p>
+        </ion-item>
+        <ion-item>
+            <p style="white-space: normal;font-size:12px">{{cabecera.comentario}}</p>
+        </ion-item>
+        <ion-item-divider color="primary">Detalle Cotización
+            <div item-right><strong>Total {{total | number:'.1-2'}}</strong></div>
+        </ion-item-divider>
+        <ion-item *ngFor="let detalle of listaDetalle">
+            <h2>{{detalle.articulo}}</h2>
+            <strong>Cantidad. {{detalle.cantidad | number:'.0-0'}} -  Sub Total {{detalle.precio|  number:'.1-2'}}</strong>
+            <strong *ngIf="detalle.promocional==='Si' || detalle.promocional==1">Promocional</strong>
+            <p style="white-space: normal;font-size:12px">Bodega {{detalle.bodega}}</p>
+        </ion-item>
+    </ion-list>
+</ion-content>

@@ -10,7 +10,7 @@
     <ion-list>
         <ion-item-sliding *ngFor="let item of autocompleteItems">
             <ion-item tappable (click)="seleccionarItem(item)" style="white-space: normal;">
-                <h5>{{ item.Articulo }} <strong>{{(item.Precio) | currency: item.Currency}}</strong> </h5>
+                <h5>{{ item.Articulo }} <strong>{{(item.Precio) | currency: item.Currency:true}}</strong> </h5>
                 <p style="white-space: normal;">{{item.Descripcion}}</p>
                 <ion-badge item-end *ngIf="item.Existencias>0">{{item.Existencias | number: '.0-0' }}</ion-badge>
                 <ion-badge item-end *ngIf="item.Existencias<=0" color="danger">Sin Stock</ion-badge>

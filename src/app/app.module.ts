@@ -24,6 +24,10 @@ import {InfoPedidoPage} from '../pages/info-pedido/info-pedido';
 import {DetalleAutorizacion} from '../pages/detalle-autorizacion/detalle-autorizacion';
 import {ConfiguracionPage} from '../pages/configuracion/configuracion';
 import { ClienteDetallePage } from './../pages/cliente-detalle/cliente-detalle';
+import { ClientePage } from './../pages/cliente/cliente';
+import { CotizacionPage } from './../pages/cotizacion/cotizacion';
+import { AgregarCotizacionPage } from './../pages/agregar-cotizacion/agregar-cotizacion';
+import { InfoCotizacionPage } from './../pages/info-cotizacion/info-cotizacion';
 /*
  * Import Services
 */
@@ -31,7 +35,7 @@ import { LoginService } from '../providers/login.service';
 import { ClienteService } from '../providers/cliente.service';
 import { ArticuloService } from '../providers/articulo.service';
 import { PedidoService } from '../providers/pedido.service';
-import { ClientePage } from './../pages/cliente/cliente';
+import { CotizacionService } from '../providers/cotizacion.service';
 /*
   Pipes
 */
@@ -40,6 +44,10 @@ import { DistinctPipe } from '../pipe/distinct';
 import {SearchPipe } from '../pipe/search.pipe';
 import { SearchClientePipe } from '../pipe/search-cliente.pipe';
 import { SearchSaldoDetallePipe } from '../pipe/search-saldo-detalle.pipe';
+import { File } from '@ionic-native/file';
+import { FileOpener } from '@ionic-native/file-opener';
+import { DetalleCotizacionPage } from '../pages/detalle-cotizacion/detalle-cotizacion';
+import { SearchCotizacionPipe } from '../pipe/search-cotizacion.pipe';
 
 @NgModule({
   declarations: [
@@ -62,10 +70,15 @@ import { SearchSaldoDetallePipe } from '../pipe/search-saldo-detalle.pipe';
     ClientePage,
     SearchClientePipe,
     ClienteDetallePage,
-    SearchSaldoDetallePipe
+    SearchSaldoDetallePipe,
+    CotizacionPage,
+    AgregarCotizacionPage,
+    DetalleCotizacionPage,
+    InfoCotizacionPage,
+    SearchCotizacionPipe
   ],
   imports: [
-BrowserModule,
+    BrowserModule,
     HttpModule,
     IonicModule.forRoot(MyApp)
   ],
@@ -85,7 +98,11 @@ BrowserModule,
     ConfiguracionPage,
     DetalleAutorizacion,
     ClientePage,
-    ClienteDetallePage
+    ClienteDetallePage,
+    CotizacionPage,
+    AgregarCotizacionPage,
+    DetalleCotizacionPage,
+    InfoCotizacionPage
   ],
   providers: [
     StatusBar,
@@ -94,7 +111,10 @@ BrowserModule,
     LoginService,
     ClienteService,
     ArticuloService,
-    PedidoService
+    PedidoService,
+    File,
+    FileOpener,
+    CotizacionService
   ]
 })
 export class AppModule {}

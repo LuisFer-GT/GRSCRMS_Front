@@ -33,10 +33,16 @@
         <ion-searchbar [(ngModel)]="busqueda" placeholder="Buscar por # de pedido, fecha, cliente."></ion-searchbar>
         <ion-list>
             <ion-item-sliding *ngFor="let pedido of listaPedidos | search:busqueda">
-                <ion-item style="white-space: normal;">
-                    <h6>
-                        <ion-icon name="calendar"></ion-icon> {{pedido.FechaVencimiento}}</h6>
-                    <strong> <ion-icon name="document"></ion-icon> #{{pedido.NumPedido}}</strong> - {{pedido.Cliente}}
+                <ion-item text-wrap>
+                    <span float-left>
+                        <ion-icon name="calendar"></ion-icon> {{pedido.FechaVencimiento}}
+                    </span>
+                    <span float-right>
+                        Pedido <strong>#{{pedido.NumPedido}}</strong>
+                    </span>
+                    <br>
+                    <br>
+                    <strong>{{pedido.CodCliente}}  </strong> - {{pedido.Cliente}}
                     <hr>
                     <p style="white-space: normal;font-size:12px">
                         {{pedido.Comentario}}
@@ -55,10 +61,16 @@
     <div *ngIf="tipoTarea==='Autorizacion'">
         <ion-list>
             <ion-item-sliding *ngFor="let pedido of listaAutorizaciones">
-                <ion-item style="white-space: normal;">
-                    <h6>
-                        <ion-icon name="calendar"></ion-icon> {{pedido.fechaEntrega | date:'dd-MM-yyyy'}}</h6>
-                    <strong> <ion-icon name="document"></ion-icon> #{{pedido.codigo_cliente}}</strong> - {{pedido.cliente}}
+                <ion-item text-wrap>
+                    <span float-left>
+                        <ion-icon name="calendar"></ion-icon> {{pedido.fechaEntrega}}
+                    </span>
+                    <span float-right>
+                        Pedido <strong>#{{pedido.idPedido}}</strong>
+                    </span>
+                    <br>
+                    <br>
+                    <strong> {{pedido.codigoCliente}}</strong> - {{pedido.cliente}}
                     <hr>
                     <p style="white-space: normal;font-size:12px">
                         {{pedido.comentario}}
@@ -77,10 +89,16 @@
     <div *ngIf="tipoTarea==='Rechazado'">
         <ion-list>
             <ion-item-sliding *ngFor="let pedido of listaRechazado">
-                <ion-item style="white-space: normal;">
-                    <h6>
-                        <ion-icon name="calendar"></ion-icon> {{pedido.fechaEntrega | date:'dd-MM-yyyy'}}</h6>
-                    <strong> <ion-icon name="document"></ion-icon> #{{pedido.codigo_cliente}}</strong> - {{pedido.cliente}}
+                <ion-item text-wrap>
+                    <span float-left>
+                        <ion-icon name="calendar"></ion-icon> {{pedido.fechaEntrega}}
+                    </span>
+                    <span float-right>
+                        Pedido <strong>#{{pedido.idPedido}}</strong>
+                    </span>
+                    <br>
+                    <br>
+                    <strong> {{pedido.codigoCliente}}</strong> - {{pedido.cliente}}
                     <hr>
                     <p style="white-space: normal;font-size:12px">
                         {{pedido.comentario}}

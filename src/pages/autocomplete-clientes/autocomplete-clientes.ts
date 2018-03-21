@@ -51,7 +51,7 @@ export class AutocompleteClientesPage {
     let me = this;
     this.autocompleteItems = this.listado;
       me.zone.run(()=>{
-          me.autocompleteItems = me.autocompleteItems.filter(item => item.Cliente.toLowerCase().match(new RegExp(this.autocomplete.query.toLowerCase(),'i')));
+          me.autocompleteItems = me.autocompleteItems.filter(item => item.Cliente.toLowerCase().match(new RegExp(this.autocomplete.query.toLowerCase(),'i')) || item.Codigo.toLowerCase().match(new RegExp(this.autocomplete.query.toLowerCase(),'i')));
       });
 
 

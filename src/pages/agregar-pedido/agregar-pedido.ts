@@ -10,6 +10,9 @@ import {ClienteService} from '../../providers/cliente.service';
 
 import { Soporte } from '../../utils/soporte';
 import { PedidoService } from '../../providers/pedido.service';
+import { Cotizacion } from './../../model/cotizacion';
+import { Cliente } from '../../model/cliente';
+import { CotizacionService } from './../../providers/cotizacion.service';
 
 @Component({
   selector: 'page-agregar-pedido',
@@ -22,13 +25,47 @@ export class AgregarPedidoPage {
   detallePedido:Array<DetallePedido>=[];
   mostrarCabecera:boolean=true;
   mostrarDatos:boolean=false;
-  listaSaldo;
+  listaSaldo=[];
   cliente;
   min:string='';
   max:string='';
+  cotizacionActual:Cotizacion;
   btnEnable:boolean=false;
-  constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl:ModalController, public _toastController:ToastController, public _clienteService:ClienteService,public _pedidoService:PedidoService, public alertCtrl:AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl:ModalController, public _toastController:ToastController, public _clienteService:ClienteService,public _pedidoService:PedidoService, public alertCtrl:AlertController, public _cotizacionService:CotizacionService) {
     this.pedido=new Pedido();
+    if(navParams.get('cotizacion')){
+      const cotizacion = <Cotizacion> navParams.get('cotizacion');
+      this.cotizacionActual= cotizacion;
+      this.nombreCliente = cotizacion.cliente;
+      this.direccionCliente = cotizacion.direccionEntrega || '';
+      this.pedido.cliente = cotizacion.cliente;
+      this.pedido.codigoCliente = cotizacion.codigoCliente;
+      this.pedido.direccionEntrega = cotizacion.direccionEntrega;
+      this.pedido.comentario = cotizacion.comentario;
+      this.pedido.cuenta = cotizacion.cuenta;
+      this.pedido.fechaEntrega = cotizacion.fechaEntrega;
+      this.pedido.estado = 'Pendiente';
+      this.pedido.talonarioDePedido = cotizacion.talonarioDePedido;
+      this.pedido.total = cotizacion.total;
+      this.pedido.vendedor = cotizacion.vendedor;
+      this.mostrarDatos=true;
+      let miCliente: Cliente = new Cliente();
+      miCliente.Codigo= cotizacion.codigoCliente;
+      miCliente.Cliente = cotizacion.cliente;
+      this.cliente = miCliente;
+      this._clienteService.saldo(miCliente).then(data=>{
+        if(data.length>0){
+          this.listaSaldo=data;
+          this.cliente.ListaDePrecios = data[0].Grupo_Nombre; 
+        }
+      });
+      _cotizacionService.listaDetalle(cotizacion.idCotizacion).then(result =>{
+        if(result.length>0){
+          this.cliente.LimiteDeCredito = result[0].LimiteCredito;
+        }
+        this.detallePedido = result;
+      });
+    }
     let comodin:Date = new Date();
     comodin.setDate(comodin.getDate()+1)
     this.min = comodin.toISOString();
@@ -38,12 +75,14 @@ export class AgregarPedidoPage {
 
   agregar(){
     this.btnEnable=true;
-    this.pedido.fechaEntrega = ""+(new Date(this.pedido.fechaEntrega));
-    this.pedido.detalle = this.detallePedido;
-    this.pedido.vendedor = this.cliente.Vendedor;
+    if(this.cliente.Vendedor){
+      this.pedido.vendedor = this.cliente.Vendedor;
+    }
     if(this.detallePedido.length>0 ){
       if( this.pedido.comentario.length>=10 ){
         if(this.direccionCliente.length>0){
+          this.pedido.fechaEntrega = ""+(Soporte.formattedDate3(new Date(this.pedido.fechaEntrega)));
+          this.pedido.detalle = this.detallePedido;
           if(this.listaSaldo.length<=0){
             this.crearPedidoConAutorizacion();
           }else if(this.listaSaldo.length>0){
@@ -100,14 +139,20 @@ export class AgregarPedidoPage {
           handler: data => {
             this.pedido.estado = 'Pendiente';
             this._pedidoService.autorizacion(this.pedido).then(data=>{
+              if(this.cotizacionActual){
+                this.cotizacionActual.estado = 'Inactivo';
+                this._cotizacionService.edit(this.cotizacionActual).then(result=>{
+                  this.navParams.get('target').listasDeDatos();
+                });
+              }
+              this.navParams.get('target').listasDeDatos();
+              this.navCtrl.pop();
               this._toastController.create({
                 message: data.detalle,
                 duration: 6000,
                 position: 'top'
               }).present();
             });
-            this.navParams.get('target').listasDeDatos();
-            this.navCtrl.pop();
           }
         }
       ]
@@ -129,6 +174,11 @@ export class AgregarPedidoPage {
           text: 'Guardar',
           handler: data => {
             this._pedidoService.agregar(this.pedido).then(data=>{
+              if(this.cotizacionActual){
+                this.cotizacionActual.estado = 'Inactivo';
+                this._cotizacionService.edit(this.cotizacionActual).then(result=>{
+                });
+              }
               this._toastController.create({
                   message: data.detalle,
                 duration: 3000
@@ -186,6 +236,7 @@ export class AgregarPedidoPage {
 
   agregarLineaDetalle(){
     if(this.cliente){
+      console.log(this.cliente);
       let modal = this.modalCtrl.create(DetallePedidoPage,{cliente:this.cliente});
       let me = this;
       modal.onDidDismiss(data => {
@@ -258,5 +309,4 @@ export class AgregarPedidoPage {
       toast.present();
     }
   }
-
 }

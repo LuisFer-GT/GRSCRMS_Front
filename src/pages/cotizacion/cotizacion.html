@@ -1,0 +1,64 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+          </button>
+        <ion-title>Cotizaciones</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content no-padding>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingText="Actualizando Espere...">
+        </ion-refresher-content>
+    </ion-refresher>
+    <ion-searchbar [(ngModel)]="busqueda" placeholder="Buscar por # de pedido, fecha, cliente."></ion-searchbar>
+    <ion-list>
+        <ion-item-sliding *ngFor="let cotizacion of listarCotizaciones | searchCotizacion:busqueda">
+            <ion-item text-wrap>
+                <span float-left>
+                    <h6><ion-icon name="calendar"></ion-icon> {{cotizacion.createdAt | date:'dd/MM/yyyy'}}</h6>
+                </span>
+                <span float-right>
+                    Cotización <strong>#{{cotizacion.idCotizacion}}</strong>
+                </span>
+                <br>
+                <br>
+                <strong> {{cotizacion.codigoCliente}} </strong> - {{cotizacion.cliente}}
+                <hr>
+                <div style="white-space: normal;font-size:12px">
+                    <div *ngIf="cotizacion.comentario">
+                        {{cotizacion.comentario}}
+                    </div>
+                    <div *ngIf="!cotizacion.comentario">
+                        Ningún comentario que mostrar.
+                    </div>
+                </div>
+                <ion-badge item-end color="primary">{{cotizacion.total | number: '.1-2'}}</ion-badge>
+            </ion-item>
+            <ion-item-options side="right">
+                <button ion-button expandable color="secondary" (click)="detalleCotizacion(cotizacion)">
+                    <ion-icon name="list-box"></ion-icon>
+                    Detalles
+                </button>
+                <button ion-button expandable color="primary" (click)="crearPedido(cotizacion)">
+                    <ion-icon name="md-paper-plane"></ion-icon>
+                    Crear Pedido
+                </button>
+                <button ion-button expandable color="light" (click)="editarCotizacion(cotizacion)">
+                    <ion-icon name="md-create"></ion-icon>
+                    Editar
+                </button>
+            </ion-item-options>
+            <ion-item-options side="left">
+                <button ion-button expandable color="danger" (click)="eliminarCotizacion(cotizacion)">
+                    <ion-icon name="md-trash"></ion-icon>
+                    Eliminar
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
+    <ion-fab right bottom (click)="cargarFormularioNuevaCotizacion()">
+        <button ion-fab color="primary" mini><ion-icon name="add"></ion-icon></button>
+    </ion-fab>
+</ion-content>

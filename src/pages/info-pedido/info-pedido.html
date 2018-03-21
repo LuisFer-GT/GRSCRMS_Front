@@ -2,6 +2,11 @@
 
     <ion-navbar color="primary">
         <ion-title>Información de Pedido</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only color="light" (click)="exportarPedido()">
+                    <ion-icon name="md-download"></ion-icon>
+                </button>
+        </ion-buttons>
     </ion-navbar>
 </ion-header>
 
@@ -14,6 +19,9 @@
         </ion-item>
         <ion-item>{{cabecera.Cliente}}</ion-item>
         <ion-item>
+            <p style="white-space: normal;font-size:12px">{{cabecera.Address}}</p>
+        </ion-item>
+        <ion-item>
             <p style="white-space: normal;font-size:12px">{{cabecera.Comentario}}</p>
         </ion-item>
 
@@ -23,7 +31,7 @@
         <ion-item *ngFor="let detalle of listaDetalle">
             <h2>{{detalle.ItemCode}}</h2>
             <strong>Cantidad. {{detalle.Quantity | number:'.0-0'}} -  Sub Total 
- {{detalle.Price |  number:'.1-2'}}</strong>
+ {{detalle.SubTotal|  number:'.1-2'}}</strong>
             <strong *ngIf="detalle.U_Promocional==='Si' || detalle.U_Promocional==1">Promocional</strong>
             <p style="white-space: normal;font-size:12px">{{detalle.Dscription}}</p>
             <ion-badge item-end *ngIf="detalle.LineStatus==='C'" color="secondary">Despachado</ion-badge>

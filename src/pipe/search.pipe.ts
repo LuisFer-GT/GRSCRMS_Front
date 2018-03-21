@@ -11,7 +11,7 @@ export class SearchPipe implements PipeTransform {
       return lista;
     }
     lista.forEach((item)=>{
-      if(item.NumPedido.toString().match(new RegExp(filtro,'i'))  ||  item.FechaVencimiento.toString().match(new RegExp(filtro,'i'))  ||item.Cliente.toString().match(new RegExp(filtro,'i')) ){
+      if(item.talonarioDePedidos.toString().match(new RegExp(filtro,'i')) || item.NumPedido.toString().match(new RegExp(filtro,'i'))  ||  item.FechaVencimiento.toString().match(new RegExp(filtro,'i'))  ||item.Cliente.toString().match(new RegExp(filtro,'i')) ){
         listaCoincidencias.push(item);
       }
     });

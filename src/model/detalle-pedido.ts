@@ -7,5 +7,9 @@ export class DetallePedido{
   precio:number=0.0;
   Currency:string;
   remate: string;
+  SubTotal: number;
+  Tax:number;
+  createdAt:string;
+  updatedAt:string;
   constructor(){}
 }

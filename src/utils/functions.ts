@@ -21,4 +21,20 @@ export class Function{
     }
     return this.tmp;
   }
+
+  public static getCurrency(codPais:string){
+    if(codPais==='GRS-GT'){
+      return 'QTZ'
+    }else if(codPais==='GRS-HN'){
+      return 'LP';
+    }else if(codPais==='GRS-ES'){
+      return 'USD';
+    }else if(codPais==='GRS-NI'){
+      return 'NIO';
+    }else if(codPais==='GRS-CR'){
+      return 'CRC';
+    }else if(codPais==='GRS-TEST'){
+      return 'QTZ';
+    }
+  }
 }

@@ -15,5 +15,7 @@ export class Pedido{
   fecha:string;
   vendedor:string;
   usuario:Usuario;
+  createdAt:string;
+  updatedAt:string;
   constructor(){}
 }

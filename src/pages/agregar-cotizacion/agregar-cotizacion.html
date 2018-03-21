@@ -2,29 +2,24 @@
 
     <ion-navbar color="primary">
         <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-        <ion-title>Nuevo Pedido</ion-title>
-        <ion-buttons end>
-            <button ion-button icon-only color="light">
-            <ion-icon name="cash"></ion-icon>
-        {{pedido.total | number:'.1-3'}}
-      </button>
-        </ion-buttons>
+          <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Nueva Cotización</ion-title>
     </ion-navbar>
 
 </ion-header>
+
 
 <ion-content no-padding>
     <form #forma="ngForm">
         <ion-list no-padding>
             <ion-item-divider color="light">
-                Información de Pedidio <button ion-button item-right clear style="font-size: 24px;" (click)="mostrarCabecera=!mostrarCabecera"> <ion-icon name="md-arrow-dropdown-circle"></ion-icon></button>
+                Información de Cotización <button ion-button item-right clear style="font-size: 24px;" (click)="mostrarCabecera=!mostrarCabecera"> <ion-icon name="md-arrow-dropdown-circle"></ion-icon></button>
             </ion-item-divider>
             <div *ngIf="mostrarCabecera">
                 <ion-item>
-                    <ion-label floating>Fecha de entrega DD/MM/YYYY</ion-label>
-                    <ion-datetime [min]="min" [max]="max" pickerFormat="DD/MM/YYYY" displayFormat="DD/MM/YYYY" doneText="Aceptar" cancelText="Cancelar" required [(ngModel)]="pedido.fechaEntrega" name="mes">
+                    <ion-label floating>Fecha posible de entrega DD/MM/YYYY</ion-label>
+                    <ion-datetime [min]="min" [max]="max" pickerFormat="DD/MM/YYYY" displayFormat="DD/MM/YYYY" doneText="Aceptar" cancelText="Cancelar" required [(ngModel)]="cotizacion.fechaEntrega" name="mes">
                     </ion-datetime>
                 </ion-item>
                 <ion-item>
@@ -37,21 +32,21 @@
                 </ion-item>
                 <ion-item>
                     <ion-label floating>Talonario De Pedidos</ion-label>
-                    <ion-input type="number" required="false" name="talonarioDePedido" [(ngModel)]="pedido.talonarioDePedido"></ion-input>
+                    <ion-input type="number" required="false" name="talonarioDePedido" [(ngModel)]="cotizacion.talonarioDePedido"></ion-input>
                 </ion-item>
                 <ion-item>
                     <ion-label floating>Comentarios</ion-label>
-                    <ion-textarea cols="2" name="Comentarios" required [(ngModel)]="pedido.comentario"></ion-textarea>
+                    <ion-textarea cols="2" name="Comentarios" required [(ngModel)]="cotizacion.comentario"></ion-textarea>
                 </ion-item>
             </div>
             <br>
             <ion-item-divider color="light">
-                Detalle de Pedido <button (click)="agregarLineaDetalle()" ion-button item-right clear style="font-size: 24px;"> <ion-icon name="md-add-circle"></ion-icon></button>
+                Detalle de Cotización <button (click)="agregarLineaDetalle()" ion-button item-right clear style="font-size: 24px;"> <ion-icon name="md-add-circle"></ion-icon></button>
             </ion-item-divider>
-            <ion-item *ngIf="detallePedido.length==0">
-                El pedido no tiene líneas.
+            <ion-item *ngIf="detalleCotizacion.length==0">
+                La cotización no tiene líneas.
             </ion-item>
-            <div *ngIf="detallePedido.length>0">
+            <div *ngIf="detalleCotizacion.length>0">
                 <ion-row no-padding text-center class="header">
                     <ion-col col-3>
                         Articulo
@@ -70,7 +65,7 @@
                     </ion-col>
                 </ion-row>
             </div>
-            <ion-item-sliding *ngFor="let item of detallePedido">
+            <ion-item-sliding *ngFor="let item of detalleCotizacion">
                 <ion-item class="limpiar" no-padding>
                     <ion-grid>
                         <ion-row text-center class="body row responsive-sm">
@@ -105,7 +100,7 @@
             </ion-item-sliding>
         </ion-list>
         <div padding>
-            <button [disabled]="!forma.valid" ion-button color="primary" block (click)="agregar()">Guardar Pedido</button>
+            <button [disabled]="!forma.valid" ion-button color="primary" block (click)="agregar()">Guardar Cotización</button>
         </div>
     </form>
 </ion-content>

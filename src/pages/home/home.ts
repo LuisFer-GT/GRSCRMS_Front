@@ -5,6 +5,7 @@ import {Slides} from 'ionic-angular'
 import { ClientePage } from './../cliente/cliente';
 import { PedidoPage } from './../pedido/pedido';
 import { ConfiguracionPage } from './../configuracion/configuracion';
+import { CotizacionPage } from './../cotizacion/cotizacion';
 
 @Component({
   selector: 'page-home',
@@ -36,6 +37,8 @@ export class HomePage {
       this.navCtrl.setRoot(PedidoPage);
     }else if(pagina==='configuracion'){
       this.navCtrl.setRoot(ConfiguracionPage);
+    }else if(pagina==='cotizacion'){
+      this.navCtrl.setRoot(CotizacionPage);
     }
   }
 }

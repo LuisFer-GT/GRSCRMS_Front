@@ -3,6 +3,7 @@ import { NavController,NavParams,AlertController,ToastController } from 'ionic-a
 import { Usuario } from '../../model/usuario';
 import { LoginService } from '../../providers/login.service';
 import { PedidoPage } from '../../pages/pedido/pedido';
+import { HomePage } from './../home/home';
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
@@ -29,7 +30,7 @@ export class LoginPage {
           this._loginService.userInfo().then(info=>{
             window.sessionStorage.setItem('usuario',JSON.stringify(info));
             if(info.authorities[0].authority==='ROL_SALE'){
-              this.navCtrl.setRoot(PedidoPage);
+              this.navCtrl.setRoot(HomePage);
             }else if(info.authorities[0].authority!=='ROL_SALE'){
               this.toastCtrl.create({
                  message: '¡Al parecer no tienes acceso a esta aplicación, contacta a tu administrador!',

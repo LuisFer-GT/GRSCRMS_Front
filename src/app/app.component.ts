@@ -11,6 +11,7 @@ import { ConfiguracionPage } from './../pages/configuracion/configuracion';
 import { Configuracion } from '../model/configuracion';
 import { ClientePage } from './../pages/cliente/cliente';
 import { HomePage } from './../pages/home/home';
+import { CotizacionPage } from '../pages/cotizacion/cotizacion';
 @Component({
   templateUrl: 'app.html'
 })
@@ -18,9 +19,9 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
   rootPage:any = LoginPage;
   paginas:Array<{titulo:string,component:any,icon:any}>;
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,private _loginService:LoginService,private zone:NgZone) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,private _loginService:LoginService) {
     if(this._loginService.isAuthenticated()){
-      this.rootPage = PedidoPage;
+      this.rootPage = HomePage;
     }else{
         this.rootPage= LoginPage;
     }
@@ -34,6 +35,7 @@ export class MyApp {
       {titulo:'Inicio',component:HomePage,icon:'home'},
       {titulo:'Pedidos',component:PedidoPage,icon:'md-list-box'},
       {titulo:'Clientes', component: ClientePage,icon: 'md-people'},
+      {titulo:'Cotizaciones',component: CotizacionPage, icon: 'md-paper'},
       {titulo:'Configuración',component: ConfiguracionPage, icon: 'md-cog'}
     ];
 

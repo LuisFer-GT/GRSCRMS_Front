@@ -40,9 +40,9 @@ export class PedidoPage {
     loading.present();
     this._pedidoService.listarPedidosCreados(this._loginService.userLogged().codigoVendedor).then(data=>{
       let lista: Array<any> = <Array<any>> data;
-      for(let item of lista){
+      /*for(let item of lista){
         item.FechaVencimiento = Soporte.formattedDate3(new Date(item.FechaVencimiento));
-      }
+      }*/
       this.listaPedidos=<Array<Pedido>>data;
       
     });
@@ -77,9 +77,9 @@ export class PedidoPage {
       this.listaPedidos=[];
 
       let lista: Array<any> = <Array<any>> data;
-      for(let item of lista){
+      /*for(let item of lista){
         item.FechaVencimiento = Soporte.formattedDate3(new Date(item.FechaVencimiento));
-      }
+      }*/
 
       this.listaPedidos=<Array<Pedido>>data;
       

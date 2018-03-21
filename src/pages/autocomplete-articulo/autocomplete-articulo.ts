@@ -1,5 +1,5 @@
 import { Component,NgZone } from '@angular/core';
-import {ViewController, NavController,NavParams, LoadingController } from 'ionic-angular';
+import {ViewController, NavController,NavParams, LoadingController, ToastController } from 'ionic-angular';
 import {ArticuloService} from '../../providers/articulo.service';
 import {DetalleArticuloPage} from '../detalle-articulo/detalle-articulo';
 
@@ -17,7 +17,8 @@ export class AutocompleteArticuloPage {
     public viewCtrl:ViewController, 
     private _articuloService:ArticuloService,
     private zone: NgZone,
-    public loadingCtrl: LoadingController) {
+    public loadingCtrl: LoadingController,
+    public _toastController:ToastController) {
     this.autocompleteItems = [];
     this.autocomplete = {
       query: ''
@@ -59,7 +60,16 @@ export class AutocompleteArticuloPage {
 
   detalles(item){
     this._articuloService.detalle(item.Articulo).then(detalle=>{
-      this.navCtrl.push(DetalleArticuloPage,{detalle: detalle[0]})
+      if(detalle.length>0){
+        this.navCtrl.push(DetalleArticuloPage,{detalle: detalle[0]})
+      }else{
+        let toast = this._toastController.create({
+          message: 'Al parecer no hay más información que mostrar del artículo seleccionado, comunicate con SCM para ver si pueden solicitar mas artículos a fabrica.',
+          duration: 6000,
+          position: 'top'
+        });
+        toast.present();    
+      }
     });
   }
 
