@@ -5,32 +5,39 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-  <ion-toolbar  color="primary" style="text-align: center">
-    <ion-title>CRM.<small>Grs</small><small><small>Electronics</small></small></ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only color="royal" (click)="serverPrompt()">
+    <ion-toolbar color="primary" text-left>
+        <ion-title>
+            <span style="font-size: 14px">CRM - GRS Electrodomésticos</span>
+        </ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only color="royal" (click)="serverPrompt()">
         <ion-icon name="ios-construct"></ion-icon>
       </button>
-    </ion-buttons>
-  </ion-toolbar>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 <ion-content padding>
-  <ion-list>
-    <form (submit)="login(usernameInput.value,passwordInput.value)">
-      <ion-item style="text-align: center">
-          <img src='assets/img/logo.png' width="50%">
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Usuario</ion-label>
-        <ion-input type="text" value="" [(ngModel)]="usuario.username"  name="username" #usernameInput></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Contraseña</ion-label>
-        <ion-input type="password" name="password" [(ngModel)]="usuario.password" #passwordInput></ion-input>
-      </ion-item>
-    </form>
-  </ion-list>
-  <div padding>
-    <button ion-button color="primary" block (click)="login()">Iniciar Sesión</button>
-  </div>
+    <ion-list>
+        <form (submit)="login(usernameInput.value,passwordInput.value)">
+            <ion-item style="text-align: center">
+                <img src='assets/img/logo.png' width="60%">
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Usuario</ion-label>
+                <ion-input type="text" value="" [(ngModel)]="usuario.username" name="username" #usernameInput></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Contraseña</ion-label>
+                <ion-input type="password" name="password" [(ngModel)]="usuario.password" #passwordInput></ion-input>
+            </ion-item>
+        </form>
+    </ion-list>
+    <div padding>
+        <button ion-button text-capitalize color="primary" block (click)="login()" round>Iniciar Sesión</button>
+    </div>
 </ion-content>
+<ion-footer>
+    <ion-toolbar text-center>
+        Copyright &copy; GRS Electrodomésticos 2018
+    </ion-toolbar>
+</ion-footer>

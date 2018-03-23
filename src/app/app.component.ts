@@ -33,7 +33,7 @@ export class MyApp {
     
     this.paginas=[
       {titulo:'Inicio',component:HomePage,icon:'home'},
-      {titulo:'Pedidos',component:PedidoPage,icon:'md-list-box'},
+      {titulo:'Pedidos',component:PedidoPage,icon:'logo-dropbox'},
       {titulo:'Clientes', component: ClientePage,icon: 'md-people'},
       {titulo:'Cotizaciones',component: CotizacionPage, icon: 'md-paper'},
       {titulo:'Configuración',component: ConfiguracionPage, icon: 'md-cog'}

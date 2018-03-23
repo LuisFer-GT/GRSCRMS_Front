@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController,NavParams,ModalController,ToastController,AlertController } from 'ionic-angular';
+import { NavController,NavParams,ModalController,ToastController,AlertController, LoadingController } from 'ionic-angular';
 
 import {Pedido} from '../../model/pedido';
 import {DetallePedido} from '../../model/detalle-pedido';
@@ -27,31 +27,34 @@ export class AgregarPedidoPage {
   mostrarDatos:boolean=false;
   listaSaldo=[];
   cliente;
+  cotizacion;
   min:string='';
   max:string='';
   cotizacionActual:Cotizacion;
   btnEnable:boolean=false;
-  constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl:ModalController, public _toastController:ToastController, public _clienteService:ClienteService,public _pedidoService:PedidoService, public alertCtrl:AlertController, public _cotizacionService:CotizacionService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl:ModalController, public _toastController:ToastController, public _clienteService:ClienteService,public _pedidoService:PedidoService, public alertCtrl:AlertController, public _cotizacionService:CotizacionService,public loadingCtrl: LoadingController) {
     this.pedido=new Pedido();
     if(navParams.get('cotizacion')){
-      const cotizacion = <Cotizacion> navParams.get('cotizacion');
-      this.cotizacionActual= cotizacion;
-      this.nombreCliente = cotizacion.cliente;
-      this.direccionCliente = cotizacion.direccionEntrega || '';
-      this.pedido.cliente = cotizacion.cliente;
-      this.pedido.codigoCliente = cotizacion.codigoCliente;
-      this.pedido.direccionEntrega = cotizacion.direccionEntrega;
-      this.pedido.comentario = cotizacion.comentario;
-      this.pedido.cuenta = cotizacion.cuenta;
-      this.pedido.fechaEntrega = cotizacion.fechaEntrega;
+      this.cotizacion= <Cotizacion> navParams.get('cotizacion');
+      let fechaEntrega = this.cotizacion.fechaEntrega.split('/');
+      let fech = fechaEntrega[1]+'/'+fechaEntrega[0]+'/'+fechaEntrega[2];
+      this.cotizacionActual= this.cotizacion;
+      this.nombreCliente = this.cotizacion.cliente;
+      this.direccionCliente = this.cotizacion.direccionEntrega || '';
+      this.pedido.cliente = this.cotizacion.cliente;
+      this.pedido.codigoCliente = this.cotizacion.codigoCliente;
+      this.pedido.direccionEntrega = this.cotizacion.direccionEntrega;
+      this.pedido.comentario =this.cotizacion.comentario;
+      this.pedido.cuenta =this.cotizacion.cuenta;
+      this.pedido.fechaEntrega = new Date(fech).toISOString();
       this.pedido.estado = 'Pendiente';
-      this.pedido.talonarioDePedido = cotizacion.talonarioDePedido;
-      this.pedido.total = cotizacion.total;
-      this.pedido.vendedor = cotizacion.vendedor;
+      this.pedido.talonarioDePedido = this.cotizacion.talonarioDePedido;
+      this.pedido.total = this.cotizacion.total;
+      this.pedido.vendedor = this.cotizacion.vendedor;
       this.mostrarDatos=true;
       let miCliente: Cliente = new Cliente();
-      miCliente.Codigo= cotizacion.codigoCliente;
-      miCliente.Cliente = cotizacion.cliente;
+      miCliente.Codigo= this.cotizacion.codigoCliente;
+      miCliente.Cliente = this.cotizacion.cliente;
       this.cliente = miCliente;
       this._clienteService.saldo(miCliente).then(data=>{
         if(data.length>0){
@@ -59,7 +62,7 @@ export class AgregarPedidoPage {
           this.cliente.ListaDePrecios = data[0].Grupo_Nombre; 
         }
       });
-      _cotizacionService.listaDetalle(cotizacion.idCotizacion).then(result =>{
+      _cotizacionService.listaDetalle(this.cotizacion.idCotizacion).then(result =>{
         if(result.length>0){
           this.cliente.LimiteDeCredito = result[0].LimiteCredito;
         }
@@ -81,10 +84,12 @@ export class AgregarPedidoPage {
     if(this.detallePedido.length>0 ){
       if( this.pedido.comentario.length>=10 ){
         if(this.direccionCliente.length>0){
-          this.pedido.fechaEntrega = ""+(Soporte.formattedDate3(new Date(this.pedido.fechaEntrega)));
+          if(this.pedido.fechaEntrega.includes('-')){
+            this.pedido.fechaEntrega = ""+(Soporte.formattedDate3(new Date(this.pedido.fechaEntrega)));
+          }
           this.pedido.detalle = this.detallePedido;
           if(this.listaSaldo.length<=0){
-            this.crearPedidoConAutorizacion();
+            this.crearPedidoSinAutorizacion();
           }else if(this.listaSaldo.length>0){
             /*if(Number(this.listaSaldo[0].Saldo)>=this.cliente.LimiteDeCredito || (this.pedido.total> Number(this.cliente.LimiteDeCredito)-Number(this.listaSaldo[0].Saldo)) || this.listaSaldo[0].Dias>0){
             }*/
@@ -97,7 +102,7 @@ export class AgregarPedidoPage {
                 duration: 3000
               }).present();*/
             }
-          } 
+          }
         }else{
           let toast = this._toastController.create({
             message: 'Por favor selecciona una dirección.',
@@ -138,7 +143,12 @@ export class AgregarPedidoPage {
           text: 'Aceptar',
           handler: data => {
             this.pedido.estado = 'Pendiente';
+            let loading = this.loadingCtrl.create({
+              content: "Cargando..."
+            });
+            loading.present();
             this._pedidoService.autorizacion(this.pedido).then(data=>{
+              loading.dismiss();
               if(this.cotizacionActual){
                 this.cotizacionActual.estado = 'Inactivo';
                 this._cotizacionService.edit(this.cotizacionActual).then(result=>{
@@ -163,7 +173,7 @@ export class AgregarPedidoPage {
   crearPedidoSinAutorizacion(){
     let prompt = this.alertCtrl.create({
       title: 'Atención',
-      message: "¿Está seguro que desea guardar la información?",
+      message: "El pedido se creará sin autorización ¿está seguro que desea continuar?",
       buttons: [
         {
           text: 'Cancelar',
@@ -173,12 +183,17 @@ export class AgregarPedidoPage {
         {
           text: 'Guardar',
           handler: data => {
+            let loading = this.loadingCtrl.create({
+              content: "Cargando..."
+            });
+            loading.present();
             this._pedidoService.agregar(this.pedido).then(data=>{
               if(this.cotizacionActual){
                 this.cotizacionActual.estado = 'Inactivo';
                 this._cotizacionService.edit(this.cotizacionActual).then(result=>{
                 });
               }
+              loading.dismiss();
               this._toastController.create({
                   message: data.detalle,
                 duration: 3000
@@ -236,7 +251,6 @@ export class AgregarPedidoPage {
 
   agregarLineaDetalle(){
     if(this.cliente){
-      console.log(this.cliente);
       let modal = this.modalCtrl.create(DetallePedidoPage,{cliente:this.cliente});
       let me = this;
       modal.onDidDismiss(data => {

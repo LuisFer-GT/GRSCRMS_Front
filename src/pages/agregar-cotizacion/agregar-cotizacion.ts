@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController,NavParams, ModalController, ToastController, AlertController } from 'ionic-angular';
+import { NavController,NavParams, ModalController, ToastController, AlertController, LoadingController } from 'ionic-angular';
 import { CotizacionPage } from './../cotizacion/cotizacion';
 import { DetalleCotizacion } from './../../model/detalle-cotizacion';
 import { ClienteService } from '../../providers/cliente.service';
@@ -27,7 +27,7 @@ export class AgregarCotizacionPage {
   min:string='';
   max:string='';
   btnEnable:boolean=false;
-  constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl:ModalController, public _toastController:ToastController, public _clienteService:ClienteService, public alertCtrl:AlertController, public _cotizacionService:CotizacionService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl:ModalController, public _toastController:ToastController, public _clienteService:ClienteService, public alertCtrl:AlertController, public _cotizacionService:CotizacionService, public loadingCtrl: LoadingController) {
     this.cotizacion=new Cotizacion();
     let comodin:Date = new Date();
     comodin.setDate(comodin.getDate()+1)
@@ -70,8 +70,14 @@ export class AgregarCotizacionPage {
     }
   }
   agregar(){
+    let loading = this.loadingCtrl.create({
+      content: "Cargando..."
+    });
+    loading.present();
     this.btnEnable=true;
-    this.cotizacion.fechaEntrega = ""+(Soporte.formattedDate3(new Date(this.cotizacion.fechaEntrega)));
+    if(this.cotizacion.fechaEntrega.includes('-')){
+      this.cotizacion.fechaEntrega = ""+(Soporte.formattedDate3(new Date(this.cotizacion.fechaEntrega)));
+    }
     this.cotizacion.detalle = this.detalleCotizacion;
     this.cotizacion.vendedor = this.cliente.Vendedor;
     this.cotizacion.estado = 'Activo';
@@ -79,8 +85,8 @@ export class AgregarCotizacionPage {
     comodin.setDate(comodin.getDate()+30);
     this.cotizacion.fechaVencimiento = Soporte.formattedDate3(comodin);
     if(this.detalleCotizacion.length>0 ){
-      console.log(this.cotizacion);
       this._cotizacionService.add(this.cotizacion).then( result => {
+        loading.dismiss();
         let toast = this._toastController.create({
           message: result.detalle,
           duration: 6000,

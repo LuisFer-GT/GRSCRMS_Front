@@ -90,6 +90,7 @@ export class InfoCotizacionPage {
         { text: 'Fecha de aprox. entrega '+this.cabecera.fechaEntrega, style: 'total', alignment: 'right', bold:false },
         { text: 'Fecha de expiración '+this.cabecera.fechaVencimiento, style: 'total', alignment: 'right', bold:false },
         { text: '', style:'espacio'},
+        { text: this.cabecera.codigoCliente, style: 'titulo' },
         { text: this.cabecera.cliente, style: 'titulo' },
         { text: 'Dirección de entrega, '+this.cabecera.direccionEntrega, bold:false, fontSize: 10},
         { text: 'Empleado del departamento de ventas, '+this.cabecera.vendedor,style:'titulo',fontSize: 9, alignment: 'left',margin: [0, 0, 0, 10], bold: false },
@@ -137,7 +138,7 @@ export class InfoCotizacionPage {
         { text: '_____________________________________',alignment: 'center'},
         { text: 'Firma y sello de '+this.cabecera.cliente,alignment: 'center',fontSize: 8},
         { text: '',alignment: 'center',fontSize: 9,margin: [0,5,0,0]},
-        { text: 'Autorizado por,  ',alignment: 'center',fontSize: 8,margin:[0,0,125,0]}
+        { text: 'Autorizado por:  ',alignment: 'center',fontSize: 8,margin:[0,0,125,0]}
       ],
       styles: {
         header: {

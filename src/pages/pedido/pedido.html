@@ -75,7 +75,7 @@
                     <p style="white-space: normal;font-size:12px">
                         {{pedido.comentario}}
                     </p>
-                    <ion-badge item-end color="success">{{pedido.estado}}</ion-badge>
+                    <ion-badge item-end color="warning">{{pedido.estado}}</ion-badge>
                 </ion-item>
                 <ion-item-options side="right">
                     <button ion-button expandable (click)="detallePedidoAutorizacion(pedido)">
@@ -115,6 +115,6 @@
         </ion-list>
     </div>
     <ion-fab right bottom (click)="cargarFormularioNuevoPedido()">
-        <button ion-fab color="primary" mini><ion-icon name="add"></ion-icon></button>
+        <button ion-fab color="warning" mini><ion-icon name="add"></ion-icon></button>
     </ion-fab>
 </ion-content>
